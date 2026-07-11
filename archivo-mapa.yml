@@ -1,0 +1,133 @@
+# archivo-mapa.yml — Mapa completo del proyecto
+# Generado automáticamente — No editar manualmente
+
+metadata:
+  nombre: "posicionador-nema17"
+  version: "2.0.0"
+  autor: "ydiaz1699"
+  fecha_creacion: "2025-07-11"
+  ultima_actualizacion: "2025-07-11"
+  plataforma: "PlatformIO"
+
+objetivo: "Control de motor NEMA17 con FSM para posicionador de soldadura (Arduino Nano + A4988)"
+
+hardware:
+  placa:
+    nombre: "Arduino Nano"
+    mcu: "ATmega328P"
+    catalog_id: "arduino-nano"
+  perifericos:
+    - nombre: "Motor NEMA17 JK42HS40-1684"
+      protocolo: "STEP/DIR (via A4988)"
+      pines:
+        - funcion: "STEP"
+          gpio: 3
+        - funcion: "DIR"
+          gpio: 4
+        - funcion: "ENABLE"
+          gpio: 5
+    - nombre: "Driver A4988"
+      protocolo: "Digital GPIO"
+      pines:
+        - funcion: "MS1"
+          gpio: 9
+        - funcion: "MS2"
+          gpio: 10
+        - funcion: "MS3"
+          gpio: 11
+    - nombre: "Potenciómetro 10kΩ"
+      protocolo: "ADC"
+      pines:
+        - funcion: "SIGNAL"
+          gpio: 14  # A0
+    - nombre: "Switch SPDT (dirección)"
+      protocolo: "GPIO INPUT_PULLUP"
+      pines:
+        - funcion: "SIGNAL"
+          gpio: 7
+    - nombre: "Pulsador N.A. (marcha)"
+      protocolo: "GPIO INPUT_PULLUP"
+      pines:
+        - funcion: "SIGNAL"
+          gpio: 8
+
+dependencias:
+  - nombre: "Arduino Core (AVR)"
+    version: "built-in"
+    proposito: "Framework base (GPIO, ADC, Timer)"
+  - nombre: "LiquidCrystal"
+    version: "built-in"
+    proposito: "Display LCD 16x2 (solo si LCD_ENABLED=1)"
+
+arquitectura:
+  patron: "FSM (5 estados) + módulos independientes"
+  modulos:
+    - nombre: "MotorController"
+      archivo: "src/motor_controller.cpp"
+      responsabilidad: "FSM del motor, generación de pasos, aceleración"
+    - nombre: "InputManager"
+      archivo: "src/input_manager.cpp"
+      responsabilidad: "Filtrado ADC, debounce botón, selector dirección"
+    - nombre: "DisplayManager"
+      archivo: "src/display_manager.cpp"
+      responsabilidad: "LCD + Serial con rate limiting"
+    - nombre: "Config"
+      archivo: "src/config.h"
+      responsabilidad: "Todas las constantes con fórmulas"
+  fsm:
+    - estado: "IDLE"
+      transicion_a: "ACCELERATING"
+      condicion: "Botón MARCHA + pot fuera de zona muerta"
+    - estado: "ACCELERATING"
+      transicion_a: "RUNNING"
+      condicion: "Velocidad actual >= velocidad target"
+    - estado: "RUNNING"
+      transicion_a: "DECELERATING"
+      condicion: "Botón STOP o pot en zona muerta"
+    - estado: "DECELERATING"
+      transicion_a: "IDLE"
+      condicion: "Velocidad = 0"
+    - estado: "ERROR"
+      transicion_a: "IDLE"
+      condicion: "Botón STOP (recuperación manual)"
+
+flujos:
+  boot:
+    - "inputManager.init() — configura pines, pre-llena filtro ADC"
+    - "motorController.init() — pines salida, deshabilita motor, microstepping"
+    - "displayManager.init() — Serial.begin(9600), bienvenida"
+    - "Lectura inicial de entradas"
+  loop_principal:
+    - "inputManager.update() — filtra pot, debounce, dirección"
+    - "motorController.update(inputs) — ejecuta FSM + genera pasos"
+    - "displayManager.update(status, inputs) — reporte serial cada 2s"
+
+limitaciones:
+  - "RAM: 2KB — prohibido String, usar F() para literales"
+  - "Solo 2 interrupciones externas (D2, D3) — D3 usado para STEP"
+  - "LCD bloquea 1.3ms al actualizar — puede perder pasos a >100 RPM"
+  - "Sin encoder: no detecta pérdida de pasos"
+  - "Unidireccional sin ACK (control local, sin red)"
+
+estructura:
+  - path: "src/"
+    proposito: "Código fuente Nivel 2 (modular)"
+  - path: "include/"
+    proposito: "Headers adicionales (vacío por ahora)"
+  - path: "lib/"
+    proposito: "Librerías locales (vacío por ahora)"
+  - path: "docs/"
+    proposito: "Esquemas, cálculos, notas, copilot"
+  - path: ".ai/"
+    proposito: "Documentación técnica para IA"
+  - path: "legacy/"
+    proposito: "Código Nivel 1 original (referencia histórica)"
+  - path: "test/"
+    proposito: "Tests (vacío — pendiente Nivel 3)"
+
+comandos:
+  compilar: "pio run -e nano"
+  upload: "pio run -e nano --target upload"
+  monitor: "pio device monitor --baud 9600"
+  clean: "pio run -e nano --target clean"
+  size: "pio run -e nano --target size"
