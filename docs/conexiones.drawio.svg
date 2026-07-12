@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     version="1.1" width="1200" height="900"
+     viewBox="-0.5 -0.5 1200 900"
+     content="&lt;mxfile host=&quot;app.diagrams.net&quot;&gt;&lt;diagram name=&quot;Conexiones&quot;&gt;&lt;/diagram&gt;&lt;/mxfile&gt;">
+  <defs/>
+  <g>
+    <!-- ============================================================ -->
+    <!-- TÍTULO -->
+    <!-- ============================================================ -->
+    <text x="600" y="30" font-family="Arial" font-size="20" font-weight="bold"
+          text-anchor="middle" fill="#333333">
+      POSICIONADOR MOTORIZADO NEMA17 — Diagrama de Conexiones
+    </text>
+    <text x="600" y="52" font-family="Arial" font-size="12" text-anchor="middle" fill="#666666">
+      Colegio Nacional San Luis — Tarija, Bolivia — Firmware v2.0
+    </text>
+
+    <!-- ============================================================ -->
+    <!-- ARDUINO NANO (centro) -->
+    <!-- ============================================================ -->
+    <rect x="420" y="200" width="200" height="420" rx="8" ry="8"
+          fill="#E3F2FD" stroke="#1565C0" stroke-width="2"/>
+    <text x="520" y="225" font-family="Arial" font-size="14" font-weight="bold"
+          text-anchor="middle" fill="#1565C0">ARDUINO NANO</text>
+    <text x="520" y="242" font-family="Arial" font-size="10"
+          text-anchor="middle" fill="#1565C0">ATmega328P — 16MHz</text>
+
+
+    <!-- Pines lado izquierdo del Arduino -->
+    <text x="435" y="275" font-family="monospace" font-size="10" fill="#333">D3  (STEP)</text>
+    <text x="435" y="295" font-family="monospace" font-size="10" fill="#333">D4  (DIR)</text>
+    <text x="435" y="315" font-family="monospace" font-size="10" fill="#333">D5  (ENABLE)</text>
+    <text x="435" y="345" font-family="monospace" font-size="10" fill="#333">D7  (SW DIR)</text>
+    <text x="435" y="365" font-family="monospace" font-size="10" fill="#333">D8  (BTN)</text>
+    <text x="435" y="395" font-family="monospace" font-size="10" fill="#333">D9  (MS1)</text>
+    <text x="435" y="415" font-family="monospace" font-size="10" fill="#333">D10 (MS2)</text>
+    <text x="435" y="435" font-family="monospace" font-size="10" fill="#333">D11 (MS3)</text>
+    <text x="435" y="465" font-family="monospace" font-size="10" fill="#333">D13 (LED)</text>
+
+    <!-- Pines lado derecho del Arduino -->
+    <text x="545" y="275" font-family="monospace" font-size="10" fill="#333">A0 (POT)</text>
+    <text x="545" y="305" font-family="monospace" font-size="10" fill="#333">5V</text>
+    <text x="545" y="325" font-family="monospace" font-size="10" fill="#333">GND</text>
+    <text x="545" y="355" font-family="monospace" font-size="10" fill="#333">VIN (12V)</text>
+
+    <!-- USB -->
+    <rect x="495" y="610" width="50" height="15" rx="2" ry="2"
+          fill="#666" stroke="#333" stroke-width="1"/>
+    <text x="520" y="622" font-family="Arial" font-size="8"
+          text-anchor="middle" fill="white">USB</text>
+
+    <!-- ============================================================ -->
+    <!-- DRIVER A4988 (izquierda) -->
+    <!-- ============================================================ -->
+    <rect x="80" y="200" width="180" height="350" rx="8" ry="8"
+          fill="#FFF3E0" stroke="#E65100" stroke-width="2"/>
+    <text x="170" y="225" font-family="Arial" font-size="14" font-weight="bold"
+          text-anchor="middle" fill="#E65100">DRIVER A4988</text>
+    <text x="170" y="242" font-family="Arial" font-size="10"
+          text-anchor="middle" fill="#E65100">Allegro — VREF=1.34V</text>
+
+    <!-- Pines del driver lado Arduino -->
+    <text x="95" y="275" font-family="monospace" font-size="10" fill="#333">STEP  ←</text>
+    <text x="95" y="295" font-family="monospace" font-size="10" fill="#333">DIR   ←</text>
+    <text x="95" y="315" font-family="monospace" font-size="10" fill="#333">ENABLE←</text>
+    <text x="95" y="340" font-family="monospace" font-size="10" fill="#333">MS1   ←</text>
+    <text x="95" y="360" font-family="monospace" font-size="10" fill="#333">MS2   ←</text>
+    <text x="95" y="380" font-family="monospace" font-size="10" fill="#333">MS3   ←</text>
+    <text x="95" y="405" font-family="monospace" font-size="10" fill="#333">VDD   ← 5V</text>
+    <text x="95" y="425" font-family="monospace" font-size="10" fill="#333">GND   ← GND</text>
+    <text x="95" y="450" font-family="monospace" font-size="10" fill="#333">RST ↔ SLP (+5V)</text>
+
+    <!-- Pines del driver lado motor -->
+    <text x="95" y="480" font-family="monospace" font-size="10" fill="#C62828">VMOT  ← +12V</text>
+    <text x="95" y="500" font-family="monospace" font-size="10" fill="#C62828">GND   ← GND(12V)</text>
+    <text x="95" y="525" font-family="monospace" font-size="10" fill="#2E7D32">1A → Bobina A+</text>
+    <text x="95" y="540" font-family="monospace" font-size="10" fill="#2E7D32">1B → Bobina A-</text>
+
+    <!-- Capacitor 100µF -->
+    <rect x="100" y="555" width="140" height="25" rx="3" ry="3"
+          fill="#FFCDD2" stroke="#C62828" stroke-width="1.5"/>
+    <text x="170" y="572" font-family="Arial" font-size="9" font-weight="bold"
+          text-anchor="middle" fill="#C62828">⚠ CAP 100µF/25V (VMOT-GND)</text>
+
+
+    <!-- ============================================================ -->
+    <!-- MOTOR NEMA17 (arriba izquierda) -->
+    <!-- ============================================================ -->
+    <rect x="80" y="70" width="180" height="110" rx="8" ry="8"
+          fill="#E8F5E9" stroke="#2E7D32" stroke-width="2"/>
+    <text x="170" y="95" font-family="Arial" font-size="14" font-weight="bold"
+          text-anchor="middle" fill="#2E7D32">MOTOR NEMA17</text>
+    <text x="170" y="112" font-family="Arial" font-size="10"
+          text-anchor="middle" fill="#2E7D32">JK42HS40-1684</text>
+    <text x="170" y="130" font-family="monospace" font-size="9"
+          text-anchor="middle" fill="#333">1.68A | 3.6 kg·cm | 200 pasos</text>
+
+    <text x="95" y="152" font-family="monospace" font-size="9" fill="#C62828">Rojo  = Bobina A+ → 1A</text>
+    <text x="95" y="165" font-family="monospace" font-size="9" fill="#1565C0">Azul  = Bobina A- → 1B</text>
+    <text x="95" y="178" font-family="monospace" font-size="9" fill="#2E7D32">Verde = Bobina B+ → 2A</text>
+
+    <!-- ============================================================ -->
+    <!-- CONEXIONES Arduino → Driver (líneas) -->
+    <!-- ============================================================ -->
+    <!-- D3 → STEP -->
+    <line x1="420" y1="270" x2="260" y2="270" stroke="#1565C0" stroke-width="2"/>
+    <!-- D4 → DIR -->
+    <line x1="420" y1="290" x2="260" y2="290" stroke="#1565C0" stroke-width="2"/>
+    <!-- D5 → ENABLE -->
+    <line x1="420" y1="310" x2="260" y2="310" stroke="#1565C0" stroke-width="2"/>
+    <!-- D9 → MS1 -->
+    <line x1="420" y1="390" x2="260" y2="335" stroke="#9E9E9E" stroke-width="1" stroke-dasharray="4,2"/>
+    <!-- D10 → MS2 -->
+    <line x1="420" y1="410" x2="260" y2="355" stroke="#9E9E9E" stroke-width="1" stroke-dasharray="4,2"/>
+    <!-- D11 → MS3 -->
+    <line x1="420" y1="430" x2="260" y2="375" stroke="#9E9E9E" stroke-width="1" stroke-dasharray="4,2"/>
+
+    <!-- Driver → Motor (líneas) -->
+    <line x1="170" y1="200" x2="170" y2="180" stroke="#2E7D32" stroke-width="2"/>
+
+    <!-- ============================================================ -->
+    <!-- POTENCIÓMETRO (derecha arriba) -->
+    <!-- ============================================================ -->
+    <rect x="750" y="200" width="160" height="120" rx="8" ry="8"
+          fill="#F3E5F5" stroke="#6A1B9A" stroke-width="2"/>
+    <text x="830" y="225" font-family="Arial" font-size="13" font-weight="bold"
+          text-anchor="middle" fill="#6A1B9A">POTENCIÓMETRO</text>
+    <text x="830" y="242" font-family="Arial" font-size="10"
+          text-anchor="middle" fill="#6A1B9A">10kΩ Lineal (tipo B)</text>
+
+    <text x="765" y="270" font-family="monospace" font-size="10" fill="#333">Terminal 1 → 5V</text>
+    <text x="765" y="290" font-family="monospace" font-size="10" fill="#6A1B9A">Cursor    → A0</text>
+    <text x="765" y="310" font-family="monospace" font-size="10" fill="#333">Terminal 3 → GND</text>
+
+    <!-- Línea Pot → Arduino A0 -->
+    <line x1="750" y1="285" x2="620" y2="270" stroke="#6A1B9A" stroke-width="2"/>
+
+
+    <!-- ============================================================ -->
+    <!-- SWITCH DIRECCIÓN (derecha medio) -->
+    <!-- ============================================================ -->
+    <rect x="750" y="350" width="160" height="100" rx="8" ry="8"
+          fill="#E0F7FA" stroke="#00695C" stroke-width="2"/>
+    <text x="830" y="375" font-family="Arial" font-size="13" font-weight="bold"
+          text-anchor="middle" fill="#00695C">SWITCH SPDT</text>
+    <text x="830" y="392" font-family="Arial" font-size="10"
+          text-anchor="middle" fill="#00695C">Dirección CW/CCW</text>
+
+    <text x="765" y="418" font-family="monospace" font-size="10" fill="#333">COM  → D7 (INPUT_PULLUP)</text>
+    <text x="765" y="438" font-family="monospace" font-size="10" fill="#333">NO   → GND</text>
+
+    <!-- Línea Switch → Arduino D7 -->
+    <line x1="750" y1="413" x2="620" y2="340" stroke="#00695C" stroke-width="2"/>
+
+    <!-- ============================================================ -->
+    <!-- PULSADOR MARCHA (derecha abajo) -->
+    <!-- ============================================================ -->
+    <rect x="750" y="480" width="160" height="100" rx="8" ry="8"
+          fill="#FFF9C4" stroke="#F57F17" stroke-width="2"/>
+    <text x="830" y="505" font-family="Arial" font-size="13" font-weight="bold"
+          text-anchor="middle" fill="#F57F17">PULSADOR N.A.</text>
+    <text x="830" y="522" font-family="Arial" font-size="10"
+          text-anchor="middle" fill="#F57F17">Marcha/Parada (Toggle)</text>
+
+    <text x="765" y="548" font-family="monospace" font-size="10" fill="#333">Term 1 → D8 (INPUT_PULLUP)</text>
+    <text x="765" y="568" font-family="monospace" font-size="10" fill="#333">Term 2 → GND</text>
+
+    <!-- Línea Botón → Arduino D8 -->
+    <line x1="750" y1="543" x2="620" y2="360" stroke="#F57F17" stroke-width="2"/>
+
+    <!-- ============================================================ -->
+    <!-- FUENTE 12V (abajo izquierda) -->
+    <!-- ============================================================ -->
+    <rect x="80" y="620" width="180" height="100" rx="8" ry="8"
+          fill="#FFEBEE" stroke="#B71C1C" stroke-width="2"/>
+    <text x="170" y="645" font-family="Arial" font-size="14" font-weight="bold"
+          text-anchor="middle" fill="#B71C1C">FUENTE DC</text>
+    <text x="170" y="662" font-family="Arial" font-size="10"
+          text-anchor="middle" fill="#B71C1C">12V / 2A mín (3A recom.)</text>
+
+    <text x="95" y="688" font-family="monospace" font-size="10" fill="#C62828">+12V → VMOT (driver)</text>
+    <text x="95" y="705" font-family="monospace" font-size="10" fill="#333">GND  → GND (driver)</text>
+    <text x="95" y="722" font-family="monospace" font-size="10" fill="#C62828">+12V → VIN (Arduino)</text>
+
+    <!-- Línea Fuente → Driver VMOT -->
+    <line x1="170" y1="620" x2="170" y2="555" stroke="#C62828" stroke-width="2.5"/>
+
+    <!-- Línea Fuente → Arduino VIN -->
+    <line x1="260" y1="680" x2="545" y2="350" stroke="#C62828" stroke-width="1.5" stroke-dasharray="5,3"/>
+
+
+    <!-- ============================================================ -->
+    <!-- FUSIBLE (entre fuente y driver) -->
+    <!-- ============================================================ -->
+    <rect x="130" y="590" width="80" height="22" rx="10" ry="10"
+          fill="#FFE0B2" stroke="#E65100" stroke-width="1.5"/>
+    <text x="170" y="605" font-family="Arial" font-size="9" font-weight="bold"
+          text-anchor="middle" fill="#E65100">FUSE 2.5A</text>
+
+    <!-- ============================================================ -->
+    <!-- LED D13 (indicador) -->
+    <!-- ============================================================ -->
+    <circle cx="830" y="650" r="12" fill="#FFEB3B" stroke="#F57F17" stroke-width="2"/>
+    <text x="830" y="654" font-family="Arial" font-size="8" font-weight="bold"
+          text-anchor="middle" fill="#333">LED</text>
+    <text x="830" y="675" font-family="Arial" font-size="9"
+          text-anchor="middle" fill="#666">D13 (built-in)</text>
+    <text x="830" y="690" font-family="Arial" font-size="8"
+          text-anchor="middle" fill="#666">OFF=IDLE ON=RUN BLINK=ERR</text>
+
+    <!-- ============================================================ -->
+    <!-- NOTAS / LEYENDA -->
+    <!-- ============================================================ -->
+    <rect x="420" y="700" width="380" height="170" rx="5" ry="5"
+          fill="#FAFAFA" stroke="#BDBDBD" stroke-width="1"/>
+    <text x="435" y="720" font-family="Arial" font-size="11" font-weight="bold" fill="#333">
+      NOTAS IMPORTANTES:
+    </text>
+    <text x="435" y="740" font-family="Arial" font-size="9" fill="#C62828">
+      ⚠ Cap 100µF/25V OBLIGATORIO entre VMOT y GND del driver
+    </text>
+    <text x="435" y="757" font-family="Arial" font-size="9" fill="#C62828">
+      ⚠ NUNCA conectar/desconectar motor con driver energizado
+    </text>
+    <text x="435" y="774" font-family="Arial" font-size="9" fill="#C62828">
+      ⚠ Ajustar VREF a 1.34V ANTES de conectar motor
+    </text>
+    <text x="435" y="791" font-family="Arial" font-size="9" fill="#C62828">
+      ⚠ Puentear RST con SLP en A4988 (ambos a +5V)
+    </text>
+    <text x="435" y="812" font-family="Arial" font-size="9" fill="#333">
+      • Colores motor: VERIFICAR con multímetro (varían por fabricante)
+    </text>
+    <text x="435" y="829" font-family="Arial" font-size="9" fill="#333">
+      • Pull-up interno en D7 y D8 (no requiere resistencia externa)
+    </text>
+    <text x="435" y="846" font-family="Arial" font-size="9" fill="#333">
+      • MS1/MS2/MS3 = LOW/LOW/LOW = Paso completo (200 pasos/vuelta)
+    </text>
+    <text x="435" y="863" font-family="Arial" font-size="9" fill="#1565C0">
+      • Líneas azules = señales digitales (5V lógica)
+    </text>
+
+    <!-- ============================================================ -->
+    <!-- LEYENDA DE COLORES -->
+    <!-- ============================================================ -->
+    <rect x="80" y="740" width="250" height="130" rx="5" ry="5"
+          fill="#FAFAFA" stroke="#BDBDBD" stroke-width="1"/>
+    <text x="95" y="760" font-family="Arial" font-size="11" font-weight="bold" fill="#333">
+      LEYENDA:
+    </text>
+    <!-- Línea azul -->
+    <line x1="95" y1="778" x2="130" y2="778" stroke="#1565C0" stroke-width="2"/>
+    <text x="140" y="782" font-family="Arial" font-size="9" fill="#333">Señales digitales (Arduino→Driver)</text>
+    <!-- Línea roja -->
+    <line x1="95" y1="798" x2="130" y2="798" stroke="#C62828" stroke-width="2.5"/>
+    <text x="140" y="802" font-family="Arial" font-size="9" fill="#333">Alimentación 12V (potencia)</text>
+    <!-- Línea morada -->
+    <line x1="95" y1="818" x2="130" y2="818" stroke="#6A1B9A" stroke-width="2"/>
+    <text x="140" y="822" font-family="Arial" font-size="9" fill="#333">Señal analógica (Pot→ADC)</text>
+    <!-- Línea verde -->
+    <line x1="95" y1="838" x2="130" y2="838" stroke="#2E7D32" stroke-width="2"/>
+    <text x="140" y="842" font-family="Arial" font-size="9" fill="#333">Conexión motor (bobinas)</text>
+    <!-- Línea gris punteada -->
+    <line x1="95" y1="858" x2="130" y2="858" stroke="#9E9E9E" stroke-width="1" stroke-dasharray="4,2"/>
+    <text x="140" y="862" font-family="Arial" font-size="9" fill="#333">Microstepping (LOW = paso completo)</text>
+
+  </g>
+</svg>
