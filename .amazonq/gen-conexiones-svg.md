@@ -6,26 +6,26 @@ Crear un archivo `docs/conexiones.drawio.svg` con el diagrama de conexiones del 
 ## Instrucciones
 
 1. **Analiza el proyecto**: Lee los archivos fuente del workspace para identificar:
-   - Microcontrolador/placa principal (Arduino Nano ATmega328P)
-   - Sensores, actuadores y módulos conectados (A4988, NEMA17, Pot, Switch, Pulsador)
-   - Pines utilizados: D3(STEP), D4(DIR), D5(EN), D7(Switch), D8(Botón), D9(MS1), D10(MS2), D11(MS3), A0(Pot), D13(LED)
-   - Voltajes de operación: 5V lógica, 12V motor
+   - Microcontrolador/placa principal (Arduino, ESP32, RPi, STM32, etc.)
+   - Sensores, actuadores y módulos conectados
+   - Pines utilizados (digitales, analógicos, I2C, SPI, UART)
+   - Voltajes de operación
 
-2. **Genera el SVG** en formato drawio editable:
-   - Rectángulo azul `#dae8fc` → Arduino Nano
-   - Rectángulo verde `#d5e8d4` → A4988 Driver
-   - Rectángulo naranja `#fff2cc` → Motor NEMA17
-   - Rectángulos verdes pequeños → Pot, Switch, Pulsador
-   - Flechas de conexión con colores:
-     - Rojo `#ff0000` → alimentación (12V, 5V)
+2. **Genera el SVG** en formato drawio editable (con el XML embebido en el atributo `content` del tag `<svg>`):
+   - Un rectángulo redondeado por cada componente (color azul `#dae8fc` para la placa principal, verde `#d5e8d4` para periféricos, naranja `#fff2cc` para actuadores)
+   - Etiquetas de pines visibles en cada componente
+   - Flechas de conexión entre pines con colores por tipo:
+     - Rojo `#ff0000` → alimentación (VCC/5V/3.3V)
      - Negro `#000000` → GND
-     - Verde `#00aa00` → señal digital (STEP, DIR, EN, MS1-3)
-     - Azul `#0000ff` → señal analógica (A0)
-   - Fuente Helvetica, 12px pines, 14px bold nombres
+     - Verde `#00aa00` → señal/datos
+     - Azul `#0000ff` → bus (I2C/SPI)
+   - Etiqueta en cada flecha indicando el tipo de conexión
+   - Fuente Helvetica, tamaño 12px para pines, 14px bold para nombres de componentes
 
-3. **Guarda** el archivo en `docs/conexiones.drawio.svg`.
+3. **Guarda** el archivo en `docs/conexiones.drawio.svg`. Crea la carpeta `docs/` si no existe.
 
 ## Criterios de calidad
 - El SVG debe ser abrible y editable en draw.io/diagrams.net
-- Cada componente muestra SOLO los pines usados en ESTE proyecto
-- Layout horizontal: periféricos a la izquierda, Arduino al centro, motor a la derecha
+- Cada componente debe mostrar SOLO los pines que se usan en el proyecto
+- El layout debe ser horizontal: periféricos a la izquierda, placa principal a la derecha
+- Dimensiones proporcionales al número de componentes (~160px ancho por componente, ~40px por pin de alto)

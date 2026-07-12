@@ -6,20 +6,39 @@ Crear un archivo `docs/notas.md` con la documentación técnica de hardware del 
 ## Instrucciones
 
 1. **Analiza el proyecto**: Lee los archivos fuente del workspace para extraer:
-   - Placa: Arduino Nano (ATmega328P)
-   - Driver: A4988 (Allegro)
-   - Motor: NEMA17 JK42HS40-1684 (1.68A, 3.6 kg·cm)
-   - Periféricos: Potenciómetro 10kΩ, Switch SPDT, Pulsador N.A.
-   - Voltajes: 5V lógica, 12V motor
+   - Placa/microcontrolador usado
+   - Sensores, módulos y actuadores
+   - Pines y protocolos de comunicación
+   - Voltajes y consideraciones eléctricas
 
-2. **Genera el markdown** con la estructura:
-   - Hardware (lista de componentes)
-   - Conexión (tabla pin a pin)
-   - Notas (quirks, gotchas, tips de montaje)
+2. **Genera el markdown** con esta estructura exacta:
 
-3. **Guarda** en `docs/notas.md`.
+```markdown
+# [Componente principal] — [Placa]
+
+## Hardware
+- Lista de componentes con modelo exacto
+- Pin asignado → función para cada uno
+
+## Conexión
+| Componente | Placa |
+|------------|-------|
+| Pin X      | Pin Y |
+(una fila por cada cable/conexión física)
+
+## Notas
+- Tiempos de calibración o inicialización
+- Configuraciones físicas (jumpers, switches, dip)
+- Conflictos de pines conocidos y alternativas
+- Limitaciones de voltaje o corriente
+- Cualquier gotcha relevante para el montaje
+```
+
+3. **Guarda** en `docs/notas.md`. Crea la carpeta `docs/` si no existe.
 
 ## Criterios de calidad
-- Solo incluir información verificable desde el código o datasheets
-- Máximo 30 líneas
-- Incluir en Notas: capacitor obligatorio, VREF=1.34V, colores de cable variables
+- Solo incluir información verificable desde el código o datasheets conocidos
+- Ser conciso: máximo 30 líneas
+- Usar terminología estándar del fabricante para nombres de pines
+- Si hay múltiples componentes, crear una sección ## Conexión por cada uno
+- Incluir en Notas solo información que NO sea obvia del datasheet (gotchas, tips prácticos)
