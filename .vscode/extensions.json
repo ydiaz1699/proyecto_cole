@@ -1,15 +1,20 @@
 {
+    // See http://go.microsoft.com/fwlink/?LinkId=827846
+    // for the documentation about the extensions.json format
     "recommendations": [
-        "platformio.platformio-ide",
-        "ms-vscode.vscode-serial-monitor",
-        "jeff-hykin.better-cpp-syntax",
         "IBM.output-colorizer",
-        "hediet.vscode-drawio",
-        "ms-vscode.cpptools-extension-pack",
-        "gruntfuggly.todo-tree",
         "eamodio.gitlens",
+        "gruntfuggly.todo-tree",
+        "hediet.vscode-drawio",
+        "jeff-hykin.better-cpp-syntax",
+        "ms-vscode.cpptools-extension-pack",
+        "ms-vscode.vscode-serial-monitor",
+        "platformio.platformio-ide",
         "redhat.vscode-yaml",
         "yzhang.markdown-all-in-one"
     ],
-    "unwantedRecommendations": []
+    "unwantedRecommendations": [
+        "ms-vscode.cpptools-extension-pack",
+        "pioarduino.pioarduino-ide"
+    ]
 }
