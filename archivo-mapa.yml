@@ -1,954 +1,133 @@
-# =============================================================================
-# archivo-mapa.yml — Mapa Exhaustivo del Proyecto
-# Posicionador Motorizado NEMA17 para Taller de Soldadura
-# =============================================================================
-# Generado: 2025-07-12
-# Versión firmware: 2.0.0 (Nivel 2 — Robusto)
-# Fuente: Código real de src/ (NO inventado)
-# =============================================================================
+# archivo-mapa.yml — Mapa completo del proyecto
+# Generado automáticamente — No editar manualmente
 
-proyecto:
-  nombre: "Posicionador Motorizado de Escala para Taller de Soldadura"
+metadata:
+  nombre: "posicionador-nema17"
   version: "2.0.0"
-  nivel_madurez: "Nivel 2 — Robusto (FSM + filtrado + aceleración)"
-  institucion: "Colegio Nacional San Luis, Sección Industrial"
-  ciudad: "Tarija, Bolivia"
-  estudiantes:
-    - "Jhonny Elías Díaz Moyata"
-    - "Rodrigo Ángel Nava Flores"
-  profesor: "Marco Antonio Vargas"
-  gestion: 2025
+  autor: "ydiaz1699"
+  fecha_creacion: "2025-07-11"
+  ultima_actualizacion: "2025-07-11"
+  plataforma: "PlatformIO"
+
+objetivo: "Control de motor NEMA17 con FSM para posicionador de soldadura (Arduino Nano + A4988)"
 
 hardware:
-  mcu:
+  placa:
     nombre: "Arduino Nano"
-    chip: "ATmega328P"
-    clock: "16 MHz"
-    ram: "2048 bytes (2 KB)"
-    flash: "32768 bytes (32 KB, menos 512 bootloader)"
-    eeprom: "1024 bytes"
-    voltaje_logico: "5V"
-    alimentacion: "7-12V por VIN"
-    pines_digitales: 14
-    pines_analogicos: 8
-    interrupciones_externas: 2  # INT0=D2, INT1=D3
-    timers: 3  # Timer0(millis), Timer1(libre), Timer2(libre, D3 PWM)
-    adc_resolucion: "10-bit (0-1023)"
-    adc_tiempo_conversion: "104 µs (prescaler /128, 13 ciclos)"
+    mcu: "ATmega328P"
+    catalog_id: "arduino-nano"
+  perifericos:
+    - nombre: "Motor NEMA17 JK42HS40-1684"
+      protocolo: "STEP/DIR (via A4988)"
+      pines:
+        - funcion: "STEP"
+          gpio: 3
+        - funcion: "DIR"
+          gpio: 4
+        - funcion: "ENABLE"
+          gpio: 5
+    - nombre: "Driver A4988"
+      protocolo: "Digital GPIO"
+      pines:
+        - funcion: "MS1"
+          gpio: 9
+        - funcion: "MS2"
+          gpio: 10
+        - funcion: "MS3"
+          gpio: 11
+    - nombre: "Potenciómetro 10kΩ"
+      protocolo: "ADC"
+      pines:
+        - funcion: "SIGNAL"
+          gpio: 14  # A0
+    - nombre: "Switch SPDT (dirección)"
+      protocolo: "GPIO INPUT_PULLUP"
+      pines:
+        - funcion: "SIGNAL"
+          gpio: 7
+    - nombre: "Pulsador N.A. (marcha)"
+      protocolo: "GPIO INPUT_PULLUP"
+      pines:
+        - funcion: "SIGNAL"
+          gpio: 8
 
-
-  motor:
-    modelo: "JK42HS40-1684"
-    tipo: "NEMA17 bipolar 4 hilos"
-    corriente_nominal: "1.68 A por fase"
-    torque_sujecion: "3.6 kg·cm (0.35 N·m)"
-    angulo_paso: "1.8°"
-    pasos_por_vuelta: 200
-    resistencia_fase: "~1.65 Ω (estimada)"
-    voltaje_operacion: "12V DC"
-    rpm_max_con_torque: "~300 RPM (torque cae significativamente sobre esto)"
-
-  driver:
-    modelo: "A4988 (Allegro MicroSystems)"
-    corriente_max: "2A por fase"
-    voltaje_motor_max: "35V"
-    voltaje_logica: "3.3-5V"
-    rsense: "0.100 Ω"
-    vref_calculado: "1.34V"  # 1.68A × 8 × 0.100Ω = 1.344V
-    formula_vref: "VREF = I_motor × 8 × R_sense"
-    microstepping_soportado: "1, 1/2, 1/4, 1/8, 1/16"
-    microstepping_usado: "1 (paso completo)"
-    enable_logica: "LOW = activo, HIGH = deshabilitado"
-    dir_setup_time: ">200ns antes de STEP"
-
-  alimentacion:
-    fuente: "AC-DC 12V / 2A mínimo (recomendado 3A)"
-    consumo_total: "~1.76A @ 12V"
-    potencia_total: "~21.1W"
-    proteccion: "Fusible 2.5A slow-blow"
-    capacitor_vmot: "100µF/25V electrolítico (OBLIGATORIO)"
-
-  interfaz_usuario:
-    - componente: "Potenciómetro 10kΩ lineal (tipo B)"
-      funcion: "Control de velocidad (30-300 RPM motor)"
-      pin: "A0"
-    - componente: "Switch SPDT"
-      funcion: "Selector dirección CW/CCW"
-      pin: "D7 (INPUT_PULLUP)"
-    - componente: "Pulsador N.A."
-      funcion: "Marcha/Parada (toggle con debounce)"
-      pin: "D8 (INPUT_PULLUP)"
-    - componente: "LED built-in"
-      funcion: "Indicador de estado FSM"
-      pin: "D13"
-
-  mecanica:
-    reduccion: "Poleas GT2 20T/60T — relación 3:1"
-    torque_plato: "~10.8 kg·cm (3.6 × 3)"
-    rpm_plato_min: "10 RPM (30/3)"
-    rpm_plato_max: "100 RPM (300/3)"
-    plato: "Acero al carbono Ø25-30cm, 5mm espesor, ~2.8 kg"
-    eje: "Barra maciza acero SAE 1020, Ø20mm"
-    rodamientos: "2× UCP204 (chumacera, bore 20mm)"
-    carga_max_horizontal: "5 kg (con reducción 3:1)"
-    factor_seguridad_eje: 8.4
-
-
-# =============================================================================
-# PINES — Mapa completo de asignación
-# =============================================================================
-pines:
-  usados:
-    - pin: "D3"
-      funcion: "STEP (pulsos al motor)"
-      tipo: "OUTPUT"
-      modulo: "MotorController"
-      notas: "Timer2 capable. NUNCA usar tone() ni PWM en este pin"
-    - pin: "D4"
-      funcion: "DIR (dirección de giro)"
-      tipo: "OUTPUT"
-      modulo: "MotorController"
-      notas: "Solo cambia en estado IDLE"
-    - pin: "D5"
-      funcion: "ENABLE (habilitar driver)"
-      tipo: "OUTPUT"
-      modulo: "MotorController"
-      notas: "LOW=activo, HIGH=sleep/disabled"
-    - pin: "D7"
-      funcion: "Selector dirección CW/CCW"
-      tipo: "INPUT_PULLUP"
-      modulo: "InputManager"
-      notas: "Switch SPDT. HIGH=CW, LOW=CCW"
-    - pin: "D8"
-      funcion: "Botón marcha/parada"
-      tipo: "INPUT_PULLUP"
-      modulo: "InputManager"
-      notas: "Pulsador N.A. Debounce 50ms. Toggle en flanco bajada"
-    - pin: "D9"
-      funcion: "MS1 microstepping"
-      tipo: "OUTPUT"
-      modulo: "MotorController"
-      notas: "Configurado LOW para paso completo"
-    - pin: "D10"
-      funcion: "MS2 microstepping"
-      tipo: "OUTPUT"
-      modulo: "MotorController"
-      notas: "Configurado LOW para paso completo"
-    - pin: "D11"
-      funcion: "MS3 microstepping"
-      tipo: "OUTPUT"
-      modulo: "MotorController"
-      notas: "Configurado LOW para paso completo"
-    - pin: "D13"
-      funcion: "LED indicador estado FSM"
-      tipo: "OUTPUT"
-      modulo: "MotorController"
-      notas: "OFF=IDLE, ON=RUN/ACCEL, BLINK=DECEL/ERROR"
-    - pin: "A0"
-      funcion: "Potenciómetro velocidad"
-      tipo: "INPUT (ADC)"
-      modulo: "InputManager"
-      notas: "10kΩ lineal. Filtro promedio 8 muestras. Lectura cada 10ms"
-
-
-  usados_lcd:  # Solo si LCD_ENABLED=1
-    - pin: "A1"
-      funcion: "LCD RS (Register Select)"
-      tipo: "OUTPUT"
-      modulo: "DisplayManager"
-    - pin: "A2"
-      funcion: "LCD EN (Enable)"
-      tipo: "OUTPUT"
-      modulo: "DisplayManager"
-    - pin: "A3"
-      funcion: "LCD D4"
-      tipo: "OUTPUT"
-      modulo: "DisplayManager"
-    - pin: "A4"
-      funcion: "LCD D5"
-      tipo: "OUTPUT"
-      modulo: "DisplayManager"
-    - pin: "A5"
-      funcion: "LCD D6"
-      tipo: "OUTPUT"
-      modulo: "DisplayManager"
-    - pin: "D2"
-      funcion: "LCD D7"
-      tipo: "OUTPUT"
-      modulo: "DisplayManager"
-      notas: "Ocupa INT0. NO disponible para sensores si LCD activo"
-
-  libres_sin_lcd:
-    - pin: "D2"
-      tipo: "Digital (INT0)"
-      sugerencia: "Endstop, encoder, emergencia"
-    - pin: "D6"
-      tipo: "Digital PWM"
-      sugerencia: "LED indicador, buzzer (Timer0)"
-    - pin: "D12"
-      tipo: "Digital"
-      sugerencia: "Sensor, relé"
-    - pin: "A1-A5"
-      tipo: "Analógico/Digital"
-      sugerencia: "Sensores adicionales, segundo potenciómetro"
-
-
-# =============================================================================
-# ARCHIVOS — Mapa de módulos y responsabilidades
-# =============================================================================
-archivos:
-  - path: "src/config.h"
-    lineas: ~130
-    responsabilidad: "TODAS las constantes del proyecto con fórmulas documentadas"
-    contiene:
-      - "Versión firmware (FW_VERSION_MAJOR/MINOR/PATCH)"
-      - "Build flags (LCD_ENABLED, DEBUG_SERIAL)"
-      - "Asignación de pines (driver, controles, LCD)"
-      - "Parámetros motor (STEPS_PER_REV, MICROSTEP_MODE)"
-      - "Límites velocidad (STEP_DELAY_MIN_US=500, STEP_DELAY_MAX_US=5000)"
-      - "Rampa aceleración (ACCEL_INTERVAL_MS=20, ACCEL_TICKS=25, ACCEL_STEP_US=180)"
-      - "Filtro ADC (ADC_FILTER_SIZE=8, ADC_FILTER_SHIFT=3, ADC_READ_INTERVAL=10ms)"
-      - "Zona muerta pot (POT_DEAD_ZONE_LOW=10, HIGH=1013)"
-      - "Debounce (DEBOUNCE_MS=50)"
-      - "Timing (DIR_CHANGE_DELAY_MS=5, MOTOR_TIMEOUT_MS=5000)"
-      - "LCD rate (LCD_UPDATE_INTERVAL_MS=500)"
-      - "Serial rate (SERIAL_REPORT_INTERVAL_MS=2000)"
-      - "Enums: MotorState (5 estados), MotorDirection (CW/CCW)"
-    dependencias: ["Arduino.h"]
-
-  - path: "src/input_manager.h"
-    lineas: ~55
-    responsabilidad: "Interfaz pública del gestor de entradas"
-    contiene:
-      - "struct InputState: potRaw, targetDelay, btnStartPressed, dirSwitchState, dirChanged, potInDeadZone"
-      - "class InputManager: init(), update(), getState()"
-      - "Buffers privados: _adcBuffer[8], _adcIndex, _adcSum"
-      - "Variables debounce: _lastBtnRaw, _btnFiltered, _btnDebounceTime"
-    dependencias: ["config.h"]
-
-  - path: "src/input_manager.cpp"
-    lineas: ~120
-    responsabilidad: "Implementación de filtrado ADC, debounce, selector"
-    contiene:
-      - "init(): configura pines, pre-llena buffer ADC con 8 lecturas reales"
-      - "update(): resetea flags one-shot, llama _readPotFiltered, _readButton, _readDirSwitch"
-      - "_readPotFiltered(): cada 10ms lee ADC, buffer circular, promedio con >>3"
-      - "_mapPotToDelay(): map(pot, DEAD_LOW, DEAD_HIGH, DELAY_MAX, DELAY_MIN)"
-      - "_readButton(): debounce 50ms, detecta flanco bajada, flag one-shot"
-      - "_readDirSwitch(): detecta cambio de estado, flag dirChanged"
-    dependencias: ["input_manager.h", "config.h"]
-    funciones_arduino: ["analogRead", "digitalRead", "millis", "map", "pinMode"]
-
-
-  - path: "src/motor_controller.h"
-    lineas: ~60
-    responsabilidad: "Interfaz pública de la FSM del motor"
-    contiene:
-      - "struct MotorStatus: state, direction, currentDelay, targetDelay, currentRPM, enabled"
-      - "class MotorController: init(), update(inputs), getStatus(), emergencyStop()"
-      - "Variables privadas: _lastStepTime (micros), _stepPinState, _lastAccelTick (millis)"
-      - "Handlers FSM: _handleIdle, _handleAccelerating, _handleRunning, _handleDecelerating, _handleError"
-      - "Utilidades: _enableMotor, _disableMotor, _setDirection, _updateRPM, _setMicrostepping"
-    dependencias: ["config.h", "input_manager.h"]
-
-  - path: "src/motor_controller.cpp"
-    lineas: ~250
-    responsabilidad: "Implementación completa de la FSM y generación de pasos"
-    contiene:
-      - "init(): pines output, deshabilita motor, microstepping, inicializa status"
-      - "update(inputs): actualiza targetDelay, switch FSM, _generateStep si motor activo, _updateRPM"
-      - "_handleIdle(): LED off, permite cambio DIR, transición a ACCEL si btn+pot"
-      - "_handleAccelerating(): LED on, _accelerate(), transición a RUN si delay<=target"
-      - "_handleRunning(): LED on, ajuste gradual de velocidad, transición a DECEL si btn/pot=0"
-      - "_handleDecelerating(): LED blink 200ms, _decelerate(), transición a IDLE si delay>=MAX"
-      - "_handleError(): LED blink 250ms, recuperación con botón"
-      - "_generateStep(): non-blocking con micros(), toggle PIN_STEP"
-      - "_accelerate(): cada 20ms, currentDelay -= 180µs"
-      - "_decelerate(): cada 20ms, currentDelay += 180µs"
-      - "_setDirection(dir): solo en IDLE, delay(5ms) por seguridad mecánica"
-      - "_updateRPM(): RPM = 60M / (currentDelay × 2 × EFFECTIVE_STEPS)"
-      - "_setMicrostepping(mode): configura MS1/MS2/MS3 según tabla A4988"
-    dependencias: ["motor_controller.h", "config.h", "input_manager.h"]
-    funciones_arduino: ["digitalWrite", "digitalRead", "micros", "millis", "delay (solo en IDLE)", "pinMode"]
-
-  - path: "src/display_manager.h"
-    lineas: ~45
-    responsabilidad: "Interfaz pública del gestor de display"
-    contiene:
-      - "class DisplayManager: init(), update(motor, inputs), showWelcome()"
-      - "Privados: _lastLcdUpdate, _lastSerialReport"
-      - "_updateLCD(): actualiza LCD con rate limiting"
-      - "_reportSerial(): reporte de estado con rate limiting"
-    dependencias: ["config.h", "motor_controller.h", "input_manager.h", "LiquidCrystal.h (condicional)"]
-
-  - path: "src/display_manager.cpp"
-    lineas: ~130
-    responsabilidad: "Implementación de LCD y Serial con rate limiting"
-    contiene:
-      - "init(): lcd.begin(16,2) si LCD_ENABLED, Serial.begin(9600) si DEBUG_SERIAL"
-      - "showWelcome(): pantalla intro en LCD, banner Serial con info del sistema"
-      - "_updateLCD(): cada 500ms, línea1=RPM+DIR, línea2=Estado+barra velocidad"
-      - "_reportSerial(): cada 2000ms, imprime [STATUS] State=X | RPM=X | Dir=X | Pot=X | Delay=Xus"
-      - "Usa F() macro para TODOS los strings (ahorra RAM)"
-      - "Usa goto showBar en switch LCD (pattern válido para evitar duplicación)"
-    dependencias: ["display_manager.h"]
-    funciones_arduino: ["Serial.print/println", "lcd.setCursor/print/write/clear", "millis", "map"]
-
-
-  - path: "src/main.cpp"
-    lineas: ~65
-    responsabilidad: "Entry point — setup() + loop() mínimo"
-    contiene:
-      - "Instancias globales: inputManager, motorController, displayManager"
-      - "setup(): init módulos (inputs→motor→display), welcome, primera lectura"
-      - "loop(): inputManager.update() → motorController.update(inputs) → displayManager.update(status, inputs)"
-    dependencias: ["config.h", "input_manager.h", "motor_controller.h", "display_manager.h"]
-    patron: "Orchestrator — main NO tiene lógica, solo coordina módulos"
-
-  - path: "codigo_arduino/posicionador_nema17.ino"
-    lineas: ~240
-    responsabilidad: "Código Nivel 1 legacy (monolítico, referencia)"
-    estado: "DEPRECATED — Solo para referencia histórica"
-    diferencias_vs_nivel2:
-      - "Sin FSM (usa booleanos motorActivo)"
-      - "Sin filtrado ADC (analogRead directo)"
-      - "Sin aceleración (velocidad instantánea)"
-      - "Cambio dirección en cualquier momento (peligroso)"
-      - "Magic numbers en vez de constantes nombradas"
-
-  - path: "codigo_arduino/posicionador_nema17_lcd.ino"
-    lineas: ~200
-    responsabilidad: "Versión LCD del Nivel 1 (legacy)"
-    estado: "DEPRECATED — Solo para referencia"
-
-# =============================================================================
-# CONSTANTES CRÍTICAS — Todas con fórmula y análisis de sensibilidad
-# =============================================================================
-constantes_criticas:
-  - nombre: "STEP_DELAY_MIN_US"
-    valor: 500
-    unidad: "µs"
-    ubicacion: "config.h"
-    formula: "60,000,000 / (RPM_max × 2 × STEPS_PER_REV) = 60M/(300×2×200)"
-    si_aumenta: "Motor más lento en su velocidad máxima"
-    si_disminuye: "Motor más rápido → puede perder pasos si torque insuficiente"
-    limite_inferior: "~250µs (600 RPM — motor pierde torque completamente)"
-    limite_superior: "N/A (solo hace el motor más lento)"
-
-  - nombre: "STEP_DELAY_MAX_US"
-    valor: 5000
-    unidad: "µs"
-    formula: "60,000,000 / (RPM_min × 2 × STEPS_PER_REV) = 60M/(30×2×200)"
-    si_aumenta: "Velocidad mínima aún más lenta (puede ser útil)"
-    si_disminuye: "Velocidad mínima más alta (menos control a baja velocidad)"
-
-  - nombre: "ACCEL_INTERVAL_MS"
-    valor: 20
-    unidad: "ms"
-    formula: "Tiempo_rampa_total / ACCEL_TICKS = 500ms / 25"
-    si_aumenta: "Aceleración más lenta, más suave, rampa más larga"
-    si_disminuye: "Aceleración más brusca, rampa más corta, riesgo pérdida pasos"
-
-
-  - nombre: "ACCEL_TICKS_TOTAL"
-    valor: 25
-    unidad: "ticks"
-    formula: "Tiempo_rampa / ACCEL_INTERVAL = 500ms / 20ms"
-    si_aumenta: "Rampa más suave (más pasos de aceleración)"
-    si_disminuye: "Rampa más brusca (menos pasos)"
-
-  - nombre: "ACCEL_STEP_US"
-    valor: 180
-    unidad: "µs por tick"
-    formula: "(STEP_DELAY_MAX - STEP_DELAY_MIN) / ACCEL_TICKS = (5000-500)/25"
-    si_aumenta: "Saltos de velocidad más grandes entre ticks"
-    si_disminuye: "Transiciones más suaves"
-
-  - nombre: "ADC_FILTER_SIZE"
-    valor: 8
-    unidad: "muestras"
-    formula: "Potencia de 2 para shift rápido (>>3 = /8)"
-    si_aumenta: "Más filtrado, respuesta más lenta (16 muestras = 160ms latencia)"
-    si_disminuye: "Menos filtrado, más ruido (4 muestras = 40ms latencia)"
-
-  - nombre: "ADC_READ_INTERVAL_MS"
-    valor: 10
-    unidad: "ms"
-    formula: "100 Hz de muestreo — suficiente para movimiento manual del pot"
-    si_aumenta: "Respuesta del pot más lenta"
-    si_disminuye: "Más CPU consumida en ADC (1 analogRead=104µs)"
-
-  - nombre: "POT_DEAD_ZONE_LOW"
-    valor: 10
-    unidad: "ADC counts (de 0-1023)"
-    formula: "~1% del rango total ADC"
-    si_aumenta: "Más difícil arrancar el motor (pot necesita girar más)"
-    si_disminuye: "Motor puede arrancar con leve toque o ruido"
-
-  - nombre: "DEBOUNCE_MS"
-    valor: 50
-    unidad: "ms"
-    formula: "> rebote típico de pulsador mecánico (10-30ms)"
-    si_aumenta: "Botón responde más lento al usuario"
-    si_disminuye: "Puede detectar falsos pulsos por rebote"
-
-  - nombre: "DIR_CHANGE_DELAY_MS"
-    valor: 5
-    unidad: "ms"
-    formula: "Margen de seguridad sobre requerimiento A4988 (>200ns)"
-    si_aumenta: "Más seguro pero bloquea loop (solo en IDLE, aceptable)"
-    si_disminuye: "Podría violar timing del A4988 en drivers lentos"
-
-  - nombre: "LCD_UPDATE_INTERVAL_MS"
-    valor: 500
-    unidad: "ms"
-    formula: "2 Hz — ojo humano no distingue más de ~10 Hz para números"
-    si_aumenta: "LCD actualiza menos, menos CPU"
-    si_disminuye: "LCD actualiza más, RIESGO de pérdida de pasos si <2000µs"
-
-  - nombre: "SERIAL_REPORT_INTERVAL_MS"
-    valor: 2000
-    unidad: "ms"
-    formula: "0.5 Hz — suficiente para monitoreo debug"
-    si_aumenta: "Menos reportes, menos CPU"
-    si_disminuye: "Más reportes, más CPU (cada print ~50-100µs)"
-
-  - nombre: "MOTOR_TIMEOUT_MS"
-    valor: 5000
-    unidad: "ms"
-    formula: "Si en RUN y no genera pasos por 5s → algo está mal"
-    si_aumenta: "Más tolerante a pausas (pero tarda en detectar fallo)"
-    si_disminuye: "Detecta fallos rápido (pero puede dar falsos positivos)"
-
-  - nombre: "ERROR_BLINK_MS"
-    valor: 250
-    unidad: "ms"
-    formula: "4 Hz de parpadeo — claramente visible como alerta"
-    si_aumenta: "Parpadeo más lento"
-    si_disminuye: "Parpadeo más rápido (más urgente visualmente)"
-
-
-# =============================================================================
-# LIMITACIONES CRÍTICAS — Problemas reales encontrados en análisis
-# =============================================================================
-limitaciones_criticas:
-  - id: "lcd_blocking"
-    descripcion: >
-      LiquidCrystal::print() bloquea ~40µs por carácter.
-      32 chars × 40µs = 1280µs. Si STEP_DELAY_MIN=500µs,
-      se pierde 1 paso cada vez que el LCD actualiza (cada 500ms).
-    impacto: "Error angular de 7.2°/segundo a velocidad máxima con LCD"
-    calculo: "1280µs > 500µs → pierde 2 flancos → 1 paso. A 300RPM=1000 pasos/s → 4 pasos/s perdidos"
-    solucion: "LCD_ENABLED=0 por defecto. Solo activar si velocidad <100 RPM"
-    estado: "MITIGADO (flag deshabilitado)"
-
-  - id: "timer2_compartido"
-    descripcion: >
-      Pin D3 (STEP) usa Timer2 para PWM. Si se usa tone() o
-      cualquier librería que modifique Timer2, los pulsos STEP
-      se corrompen silenciosamente.
-    impacto: "Motor se detiene o gira erráticamente sin error visible en código"
-    solucion: "NUNCA usar tone(). Si necesitas buzzer, usar Timer1 en D9/D10"
-    estado: "RESTRICCIÓN PERMANENTE"
-
-  - id: "ram_2kb"
-    descripcion: >
-      El ATmega328P tiene solo 2048 bytes de RAM. La clase String
-      fragmenta el heap progresivamente. Después de horas de
-      operación, crash por heap corruption sin síntoma previo.
-    impacto: "Reset aleatorio del Arduino después de horas de operación"
-    solucion: "NUNCA usar String. Usar F() para literales. char[] con tamaño fijo"
-    estado: "RESTRICCIÓN PERMANENTE"
-
-  - id: "micros_overflow"
-    descripcion: >
-      micros() usa unsigned long (32-bit). Overflow cada 2^32 µs
-      = 4,294,967,296 µs = 71.58 minutos. La resta unsigned
-      (now - _lastStepTime) es well-defined en C++ y sigue
-      funcionando correctamente después del overflow.
-    impacto: "NINGUNO — aritmética unsigned maneja overflow correctamente"
-    solucion: "No requiere acción. Documentado para claridad"
-    estado: "NO ES BUG (verificado)"
-
-  - id: "micros_resolucion"
-    descripcion: >
-      En ATmega328P, micros() tiene resolución de 4µs (no 1µs).
-      STEP_DELAY_MIN=500µs es múltiplo de 4 → no hay problema.
-    impacto: "Jitter de ±4µs en timing de pasos (despreciable)"
-    solucion: "No requiere acción. Todos los delays son múltiplo de 4"
-    estado: "NO ES BUG"
-
-  - id: "analogread_blocking"
-    descripcion: >
-      analogRead() bloquea ~104µs (13 ciclos ADC × 8µs con
-      prescaler /128). Se ejecuta máximo cada 10ms (1 vez cada
-      ~100-200 iteraciones del loop).
-    impacto: "1.04% del CPU dedicado a lectura ADC. Margen: 500-140=360µs"
-    solucion: "Lectura cada 10ms (no cada ciclo). Margen suficiente"
-    estado: "ACEPTABLE"
-
-  - id: "pot_logaritmico"
-    descripcion: >
-      Si el potenciómetro es tipo A (logarítmico) en vez de
-      tipo B (lineal), la curva de velocidad será no-intuitiva.
-      El map() asume linealidad.
-    impacto: "Velocidad concentrada en un extremo del pot (difícil de ajustar)"
-    solucion: "[VERIFICAR] Confirmar que el pot tiene 'B' impreso (lineal)"
-    estado: "PENDIENTE VERIFICACIÓN"
-
-  - id: "delay_en_idle"
-    descripcion: >
-      _setDirection() usa delay(5ms) — SOLO se ejecuta en estado
-      IDLE cuando el motor está detenido. No afecta generación
-      de pasos porque no hay pasos en IDLE.
-    impacto: "NINGUNO — motor está parado cuando se ejecuta"
-    solucion: "Aceptable. Documentado para evitar confusión con regla 'no delay'"
-    estado: "ACEPTABLE (solo en IDLE)"
-
-
-# =============================================================================
-# FSM — Máquina de Estados del Motor
-# =============================================================================
-fsm:
-  estados:
-    - nombre: "STATE_IDLE"
-      valor_enum: 0
-      motor: "Deshabilitado (ENABLE=HIGH)"
-      led: "Apagado"
-      permite: "Cambio de dirección"
-      transicion_salida: "→ ACCELERATING (botón presionado + pot fuera zona muerta)"
-      handler: "_handleIdle()"
-
-    - nombre: "STATE_ACCELERATING"
-      valor_enum: 1
-      motor: "Habilitado, velocidad incrementándose"
-      led: "Encendido fijo"
-      accion: "Cada 20ms: currentDelay -= 180µs (acelerando)"
-      transicion_salida:
-        - "→ RUNNING (currentDelay <= targetDelay)"
-        - "→ DECELERATING (botón presionado o pot en zona muerta)"
-      handler: "_handleAccelerating()"
-
-    - nombre: "STATE_RUNNING"
-      valor_enum: 2
-      motor: "Habilitado, velocidad constante"
-      led: "Encendido fijo"
-      accion: "Genera pasos a currentDelay. Ajusta si pot cambia"
-      transicion_salida:
-        - "→ DECELERATING (botón presionado)"
-        - "→ DECELERATING (pot en zona muerta)"
-        - "→ ACCELERATING (pot pide velocidad mayor)"
-      handler: "_handleRunning()"
-      ajuste_running: >
-        Si target > current + ACCEL_STEP_US: reduce velocidad gradualmente
-        en el mismo estado (no va a DECEL completo, solo ajusta cada 20ms)
-
-    - nombre: "STATE_DECELERATING"
-      valor_enum: 3
-      motor: "Habilitado, velocidad decrementándose"
-      led: "Parpadeando (200ms)"
-      accion: "Cada 20ms: currentDelay += 180µs (desacelerando)"
-      transicion_salida: "→ IDLE (currentDelay >= STEP_DELAY_MAX_US)"
-      handler: "_handleDecelerating()"
-      al_llegar_idle: "Deshabilita motor (ENABLE=HIGH)"
-
-    - nombre: "STATE_ERROR"
-      valor_enum: 4
-      motor: "Deshabilitado"
-      led: "Parpadeando rápido (250ms)"
-      causa_entrada: "Timeout sin pulsos por >5s (no implementado aún en v2.0)"
-      transicion_salida: "→ IDLE (botón presionado = recuperación)"
-      handler: "_handleError()"
-
-  eventos:
-    - nombre: "btnStartPressed"
-      fuente: "InputManager (flanco bajada, debounce 50ms)"
-      efectos:
-        - "IDLE → ACCELERATING (si pot > zona muerta)"
-        - "ACCELERATING → DECELERATING"
-        - "RUNNING → DECELERATING"
-        - "ERROR → IDLE (recuperación)"
-
-    - nombre: "potInDeadZone"
-      fuente: "InputManager (potRaw < 10)"
-      efectos:
-        - "ACCELERATING → DECELERATING"
-        - "RUNNING → DECELERATING"
-
-    - nombre: "dirChanged"
-      fuente: "InputManager (cambio en switch D7)"
-      efectos:
-        - "Solo en IDLE: cambia _status.direction + PIN_DIR"
-        - "En otros estados: IGNORADO (protección mecánica)"
-
-    - nombre: "targetDelay cambiado"
-      fuente: "InputManager (pot girado)"
-      efectos:
-        - "RUNNING: ajuste gradual de velocidad (aceleración o deceleración suave)"
-        - "ACCELERATING: el target se actualiza, rampa continúa hasta nuevo target"
-
-
-# =============================================================================
-# FLUJOS PRINCIPALES — Secuencia de ejecución detallada
-# =============================================================================
-flujos_principales:
-  diagrama_conceptual: |
-    setup():
-      └── inputManager.init()
-      │     ├── pinMode(A0=INPUT, D7=INPUT_PULLUP, D8=INPUT_PULLUP)
-      │     ├── Pre-llenar _adcBuffer[8] con 8 analogRead(A0) reales
-      │     └── Inicializar: _state.potInDeadZone=true, targetDelay=5000
-      └── motorController.init()
-      │     ├── pinMode(D3/D4/D5/D9/D10/D11/D13 = OUTPUT)
-      │     ├── ENABLE=HIGH (motor deshabilitado)
-      │     ├── DIR=HIGH (CW), STEP=LOW, LED=LOW
-      │     ├── _setMicrostepping(1): MS1=L, MS2=L, MS3=L
-      │     └── _status = {IDLE, CW, 5000, 5000, 0.0, false}
-      └── displayManager.init()
-      │     ├── [LCD_ENABLED]: lcd.begin(16,2)
-      │     └── [DEBUG_SERIAL]: Serial.begin(9600)
-      └── displayManager.showWelcome()
-      │     ├── [LCD_ENABLED]: "POSICIONADOR / NEMA17 v2.0" → delay(2000) → clear
-      │     └── [DEBUG_SERIAL]: Banner con info del sistema (F() macro)
-      └── inputManager.update()  ← primera lectura para estado base
-    
-    loop() infinito (~50-140µs por ciclo sin LCD):
-      1. inputManager.update()
-         ├── Reset flags: btnStartPressed=false, dirChanged=false
-         ├── _readPotFiltered():
-         │     └── if (millis()-_lastAdcRead >= 10ms):
-         │           ├── reading = analogRead(A0)  ← 104µs BLOQUEANTE
-         │           ├── _adcSum -= _adcBuffer[_adcIndex]
-         │           ├── _adcBuffer[_adcIndex] = reading
-         │           ├── _adcSum += reading
-         │           ├── _adcIndex = (_adcIndex+1) & 7  ← circular con AND
-         │           ├── potRaw = _adcSum >> 3  ← promedio sin división
-         │           ├── potInDeadZone = (potRaw < 10)
-         │           └── _mapPotToDelay(): map(pot, 10, 1013, 5000, 500)
-         ├── _readButton():
-         │     ├── raw = digitalRead(D8)
-         │     ├── if raw != _lastBtnRaw: _btnDebounceTime = millis()
-         │     └── if (millis()-debounce > 50ms) && raw != _btnFiltered:
-         │           ├── _btnFiltered = raw
-         │           └── if raw==LOW: btnStartPressed = true  ← ONE-SHOT
-         └── _readDirSwitch():
-               ├── current = digitalRead(D7)
-               └── if current != _lastDirState: dirChanged=true, update state
-      
-      2. motorController.update(inputs)
-         ├── _status.targetDelay = inputs.targetDelay
-         ├── switch (_status.state):
-         │     ├── IDLE: check btn+pot → ACCEL
-         │     ├── ACCEL: _accelerate(), check target → RUN
-         │     ├── RUN: adjust speed, check btn/pot → DECEL
-         │     ├── DECEL: _decelerate(), check delay≥MAX → IDLE
-         │     └── ERROR: blink LED, check btn → IDLE
-         ├── if (state==ACCEL || RUN || DECEL):
-         │     └── _generateStep():
-         │           └── if (micros()-_lastStepTime >= currentDelay):
-         │                 ├── _lastStepTime = now
-         │                 ├── _stepPinState = !_stepPinState
-         │                 └── digitalWrite(D3, _stepPinState)  ← TOGGLE
-         └── _updateRPM():
-               └── RPM = 60,000,000 / (currentDelay × 2 × 200)
-      
-      3. displayManager.update(motorStatus, inputs)
-         ├── [LCD_ENABLED && millis()-last >= 500ms]:
-         │     ├── Línea 1: "RPM:XXX.X   CW " (16 chars, ~640µs)
-         │     └── Línea 2: "RUN ██████    " (16 chars, ~640µs)
-         └── [DEBUG_SERIAL && millis()-last >= 2000ms]:
-               └── "[STATUS] State=RUN | RPM=109.1 | Dir=CW | Pot=512 | Delay=2750us"
-
-
-# =============================================================================
-# TIMING — Análisis de rendimiento del loop
-# =============================================================================
-timing:
-  loop_sin_lcd:
-    total: "~50-140µs (varía según si ADC lee o no)"
-    desglose:
-      - "analogRead (solo cada 10ms, promediado): ~10µs/loop equivalente"
-      - "digitalRead ×2 (botón + switch): ~8µs"
-      - "FSM switch + handler: ~10-20µs"
-      - "generateStep toggle: ~6µs"
-      - "_updateRPM (float): ~15µs"
-      - "overhead (variables, condiciones): ~10µs"
-    margen_a_velocidad_maxima: "500µs - 140µs = 360µs (72% libre)"
-    conclusion: "SUFICIENTE — Loop nunca bloquea generación de pasos"
-
-  loop_con_lcd:
-    total_normal: "~50-140µs (idéntico sin LCD la mayor parte del tiempo)"
-    total_durante_update: "~1440µs (140µs loop + 1300µs LCD write)"
-    frecuencia_update: "Cada 500ms (2 Hz)"
-    problema: "1440µs > 500µs (STEP_DELAY_MIN) → pierde pasos a velocidad máxima"
-    solucion: "LCD_ENABLED=0 por defecto"
-
-  tiempos_funciones_arduino:
-    - funcion: "analogRead()"
-      duracion: "104µs"
-      bloqueante: true
-      frecuencia_llamada: "Cada 10ms"
-    - funcion: "digitalRead()"
-      duracion: "~4µs"
-      bloqueante: false
-      frecuencia_llamada: "Cada loop"
-    - funcion: "digitalWrite()"
-      duracion: "~4µs"
-      bloqueante: false
-      frecuencia_llamada: "Cada loop (STEP toggle)"
-    - funcion: "micros()"
-      duracion: "~4µs"
-      bloqueante: false
-      frecuencia_llamada: "Cada loop"
-    - funcion: "millis()"
-      duracion: "~4µs"
-      bloqueante: false
-      frecuencia_llamada: "Cada loop (múltiples)"
-    - funcion: "map()"
-      duracion: "~8µs"
-      bloqueante: false
-      frecuencia_llamada: "Cada 10ms (con ADC)"
-    - funcion: "lcd.print() por char"
-      duracion: "~40µs"
-      bloqueante: true
-      frecuencia_llamada: "Cada 500ms (32 chars = 1280µs)"
-    - funcion: "Serial.print()"
-      duracion: "~50-100µs por línea"
-      bloqueante: "Semi (buffer 64 bytes, bloquea si buffer lleno)"
-      frecuencia_llamada: "Cada 2000ms"
-
-# =============================================================================
-# DEPENDENCIAS — Librerías y módulos
-# =============================================================================
 dependencias:
-  externas:
-    - nombre: "Arduino Core (AVR)"
-      version: "Built-in"
-      funciones_usadas: ["analogRead", "digitalRead", "digitalWrite", "micros", "millis", "map", "pinMode", "Serial"]
-      obligatoria: true
-    - nombre: "LiquidCrystal"
-      version: "Built-in Arduino"
-      funciones_usadas: ["begin", "setCursor", "print", "write", "clear", "createChar"]
-      obligatoria: false
-      condicion: "Solo si LCD_ENABLED=1"
+  - nombre: "Arduino Core (AVR)"
+    version: "built-in"
+    proposito: "Framework base (GPIO, ADC, Timer)"
+  - nombre: "LiquidCrystal"
+    version: "built-in"
+    proposito: "Display LCD 16x2 (solo si LCD_ENABLED=1)"
 
-  internas:
-    - modulo: "config.h"
-      usado_por: ["main.cpp", "input_manager", "motor_controller", "display_manager"]
-      tipo: "Header-only (constantes + enums)"
-    - modulo: "input_manager"
-      usado_por: ["main.cpp", "motor_controller (vía InputState struct)"]
-      tipo: "Clase con .h/.cpp"
-    - modulo: "motor_controller"
-      usado_por: ["main.cpp", "display_manager (vía MotorStatus struct)"]
-      tipo: "Clase con .h/.cpp"
-    - modulo: "display_manager"
-      usado_por: ["main.cpp"]
-      tipo: "Clase con .h/.cpp"
+arquitectura:
+  patron: "FSM (5 estados) + módulos independientes"
+  modulos:
+    - nombre: "MotorController"
+      archivo: "src/motor_controller.cpp"
+      responsabilidad: "FSM del motor, generación de pasos, aceleración"
+    - nombre: "InputManager"
+      archivo: "src/input_manager.cpp"
+      responsabilidad: "Filtrado ADC, debounce botón, selector dirección"
+    - nombre: "DisplayManager"
+      archivo: "src/display_manager.cpp"
+      responsabilidad: "LCD + Serial con rate limiting"
+    - nombre: "Config"
+      archivo: "src/config.h"
+      responsabilidad: "Todas las constantes con fórmulas"
+  fsm:
+    - estado: "IDLE"
+      transicion_a: "ACCELERATING"
+      condicion: "Botón MARCHA + pot fuera de zona muerta"
+    - estado: "ACCELERATING"
+      transicion_a: "RUNNING"
+      condicion: "Velocidad actual >= velocidad target"
+    - estado: "RUNNING"
+      transicion_a: "DECELERATING"
+      condicion: "Botón STOP o pot en zona muerta"
+    - estado: "DECELERATING"
+      transicion_a: "IDLE"
+      condicion: "Velocidad = 0"
+    - estado: "ERROR"
+      transicion_a: "IDLE"
+      condicion: "Botón STOP (recuperación manual)"
 
-  grafo_dependencias: |
-    config.h ←─── input_manager.h ←─── motor_controller.h ←─── display_manager.h
-       ↑                ↑                       ↑                       ↑
-       └────────────────┴───────────────────────┴───────────────────────┘
-                                    main.cpp (incluye todos)
+flujos:
+  boot:
+    - "inputManager.init() — configura pines, pre-llena filtro ADC"
+    - "motorController.init() — pines salida, deshabilita motor, microstepping"
+    - "displayManager.init() — Serial.begin(9600), bienvenida"
+    - "Lectura inicial de entradas"
+  loop_principal:
+    - "inputManager.update() — filtra pot, debounce, dirección"
+    - "motorController.update(inputs) — ejecuta FSM + genera pasos"
+    - "displayManager.update(status, inputs) — reporte serial cada 2s"
 
+limitaciones:
+  - "RAM: 2KB — prohibido String, usar F() para literales"
+  - "Solo 2 interrupciones externas (D2, D3) — D3 usado para STEP"
+  - "LCD bloquea 1.3ms al actualizar — puede perder pasos a >100 RPM"
+  - "Sin encoder: no detecta pérdida de pasos"
+  - "Unidireccional sin ACK (control local, sin red)"
 
-# =============================================================================
-# MEMORIA — Uso estimado
-# =============================================================================
-memoria:
-  flash_sin_lcd:
-    estimado: "~8 KB"
-    disponible: "32 KB (menos 512 bootloader = 31.5 KB)"
-    porcentaje: "~25%"
-  flash_con_lcd:
-    estimado: "~12 KB"
-    disponible: "31.5 KB"
-    porcentaje: "~38%"
-  ram_sin_lcd:
-    estimado: "~400 bytes"
-    disponible: "2048 bytes"
-    porcentaje: "~20%"
-    desglose:
-      - "InputState struct: ~12 bytes"
-      - "MotorStatus struct: ~14 bytes"
-      - "_adcBuffer[8]: 16 bytes"
-      - "Variables internas InputManager: ~20 bytes"
-      - "Variables internas MotorController: ~20 bytes"
-      - "Variables internas DisplayManager: ~10 bytes"
-      - "Stack (llamadas a funciones): ~100 bytes"
-      - "Strings en RAM (los con F() NO cuentan): ~50 bytes"
-  ram_con_lcd:
-    estimado: "~600 bytes"
-    disponible: "2048 bytes"
-    porcentaje: "~29%"
-  limite_seguro_ram: "70% = 1433 bytes (dejar 600+ para stack)"
+estructura:
+  - path: "src/"
+    proposito: "Código fuente Nivel 2 (modular)"
+  - path: "include/"
+    proposito: "Headers adicionales (vacío por ahora)"
+  - path: "lib/"
+    proposito: "Librerías locales (vacío por ahora)"
+  - path: "docs/"
+    proposito: "Esquemas, cálculos, notas, copilot"
+  - path: ".ai/"
+    proposito: "Documentación técnica para IA"
+  - path: "legacy/"
+    proposito: "Código Nivel 1 original (referencia histórica)"
+  - path: "test/"
+    proposito: "Tests (vacío — pendiente Nivel 3)"
 
-# =============================================================================
-# BUILD — Compilación
-# =============================================================================
-build:
-  ide_principal: "Arduino IDE 2.x"
-  ide_alternativo: "PlatformIO (VSCode)"
-  board: "Arduino Nano (ATmega328P)"
-  procesador: "ATmega328P (Old Bootloader) o ATmega328P"
-  upload_speed: 115200
-  monitor_speed: 9600
-  framework: "Arduino"
-  compilador: "avr-gcc"
-  platformio_ini: |
-    [env:nano]
-    platform = atmelavr
-    board = nanoatmega328
-    framework = arduino
-    monitor_speed = 9600
-    upload_speed = 115200
-    build_flags =
-        -DVERSION_MAJOR=2
-        -DVERSION_MINOR=0
-        -DLCD_ENABLED=0
-        -DDEBUG_SERIAL=1
-        -Wall
-  flags_disponibles:
-    - flag: "LCD_ENABLED"
-      valores: "0 (default) / 1"
-      efecto: "Compila código LCD + incluye LiquidCrystal"
-    - flag: "DEBUG_SERIAL"
-      valores: "1 (default) / 0"
-      efecto: "Compila reportes Serial cada 2s"
-
-# =============================================================================
-# TESTS — Plan de verificación (hardware)
-# =============================================================================
-tests_hardware:
-  - id: "T0_vref"
-    descripcion: "Ajustar VREF del A4988 a 1.34V con multímetro"
-    prerequisito: "Driver energizado (12V VMOT, 5V VDD), motor desconectado"
-    resultado_esperado: "1.34V ±0.05V en testpoint del potenciómetro del driver"
-    estado: "[PENDIENTE]"
-
-  - id: "T1_toggle_basico"
-    descripcion: "Código mínimo: solo toggle pin D3 cada 2ms fijo"
-    prerequisito: "Motor conectado al driver, VREF ajustado"
-    resultado_esperado: "Motor gira a 150 RPM constante sin ruido excesivo"
-    estado: "[PENDIENTE]"
-
-  - id: "T2_potenciometro"
-    descripcion: "Agregar pot A0, mapear a delay variable"
-    prerequisito: "T1 pasado"
-    resultado_esperado: "Motor varía velocidad con pot (30-300 RPM)"
-    estado: "[PENDIENTE]"
-
-  - id: "T3_filtro_adc"
-    descripcion: "Activar filtro 8 muestras, observar estabilidad"
-    prerequisito: "T2 pasado"
-    resultado_esperado: "Serial muestra valor estable (±2 counts vs ±8 sin filtro)"
-    estado: "[PENDIENTE]"
-
-  - id: "T4_fsm_completa"
-    descripcion: "FSM IDLE→ACCEL→RUN→DECEL→IDLE con botón"
-    prerequisito: "T3 pasado"
-    resultado_esperado: "Arranque suave (500ms), parada suave, Serial reporta transiciones"
-    estado: "[PENDIENTE]"
-
-  - id: "T5_direccion"
-    descripcion: "Cambiar switch en IDLE, verificar que solo cambia parado"
-    prerequisito: "T4 pasado"
-    resultado_esperado: "Dir cambia en IDLE. En RUN el switch es ignorado"
-    estado: "[PENDIENTE]"
-
-  - id: "T6_carga"
-    descripcion: "Agregar carga al plato (2 kg, luego 5 kg)"
-    prerequisito: "T5 pasado + reducción GT2 instalada"
-    resultado_esperado: "Motor gira sin perder pasos. Ajustar ACCEL si necesario"
-    estado: "[PENDIENTE]"
-
-  - id: "T7_reduccion"
-    descripcion: "Verificar RPM en plato con poleas GT2 3:1"
-    prerequisito: "T6 pasado"
-    resultado_esperado: "RPM_plato = RPM_motor/3. Rango: 10-100 RPM en plato"
-    estado: "[PENDIENTE]"
-
-
-# =============================================================================
-# ROADMAP — Plan de versiones
-# =============================================================================
-roadmap:
-  actual: "v2.0 (Nivel 2 — Robusto)"
-  proximo: "v2.5 (Calibrado con hardware real)"
-  futuro: "v3.0 (Pro — modo angular, pedal, EEPROM)"
-
-  v2_5:
-    objetivo: "Ajustar parámetros con mediciones reales"
-    tareas:
-      - "Calibrar zona muerta real del pot"
-      - "Medir RPM reales vs calculadas"
-      - "Ajustar rampa de aceleración con carga"
-      - "Verificar que no pierde pasos a 50 RPM con carga"
-    criterio_avance: "Hardware armado + parámetros calibrados"
-
-  v3_0:
-    objetivo: "Features avanzados"
-    tareas:
-      - "Modo posicionamiento angular (pot=ángulo 0-360°)"
-      - "Pedal de pie (start/stop sin manos)"
-      - "Fin de carrera (endstop) como referencia 0°"
-      - "Memoria de velocidad en EEPROM"
-      - "Escala angular en LCD"
-    criterio_avance: "Al menos 2 features Pro implementadas y probadas"
-
-# =============================================================================
-# COTIZACIÓN — Materiales (Bolivianos, Bs)
-# =============================================================================
-cotizacion:
-  moneda: "Bolivianos (Bs)"
-  tipo_cambio_aprox: "1 USD ≈ 6.9 Bs"
-  total: "~596 Bs (~86 USD)"
-  items_principales:
-    - item: "Motor NEMA17 JK42HS40-1684"
-      precio_bs: 100
-    - item: "Driver A4988"
-      precio_bs: 25
-    - item: "Arduino Nano (CH340)"
-      precio_bs: 35
-    - item: "Fuente 12V/3A"
-      precio_bs: 50
-    - item: "Poleas GT2 20T+60T + correa"
-      precio_bs: 80
-    - item: "Chumaceras UCP204 ×2"
-      precio_bs: 80
-    - item: "Perfil 40×40mm (varios metros)"
-      precio_bs: 120
-    - item: "Plancha acero 5mm (plato)"
-      precio_bs: 60
-    - item: "Electrónica (pot, switch, botón, cables, fusible, cap)"
-      precio_bs: 46
-
-# =============================================================================
-# VERIFICAR — Datos pendientes de confirmar con hardware real
-# =============================================================================
-pendientes_verificar:
-  - id: "PV1"
-    dato: "¿Pot real es tipo B (lineal) o tipo A (logarítmico)?"
-    impacto: "Curva de velocidad correcta"
-    como_verificar: "Leer marca del pot. Si dice 'B10K' = lineal. Si dice 'A10K' = log"
-
-  - id: "PV2"
-    dato: "¿Colores cable motor = Rojo-Azul-Verde-Negro?"
-    impacto: "Conexión correcta al driver (evitar cortocircuito de bobinas)"
-    como_verificar: "Multímetro en modo resistencia: pares con ~1.65Ω = misma bobina"
-
-  - id: "PV3"
-    dato: "¿Fuente 12V entrega estable bajo carga 1.68A?"
-    impacto: "Motor pierde pasos si voltaje baja"
-    como_verificar: "Medir VMOT en driver CON motor girando a velocidad máxima"
-
-  - id: "PV4"
-    dato: "¿Rsense del A4988 específico es 0.100Ω o 0.050Ω?"
-    impacto: "VREF cambia: con 0.050Ω → VREF = 0.67V"
-    como_verificar: "Buscar resistor marcado R100 o R050 en PCB del driver"
-
-  - id: "PV5"
-    dato: "¿Poleas GT2 ya compradas?"
-    impacto: "Sin reducción: torque insuficiente para carga vertical"
-    como_verificar: "Confirmar con estudiantes"
+comandos:
+  compilar: "pio run -e nano"
+  upload: "pio run -e nano --target upload"
+  monitor: "pio device monitor --baud 9600"
+  clean: "pio run -e nano --target clean"
+  size: "pio run -e nano --target size"
