@@ -128,6 +128,9 @@ proyecto_cole/
 │   ├── input_manager.h/.cpp          # Filtrado ADC + debounce
 │   └── display_manager.h/.cpp        # LCD + Serial rate-limited
 ├── docs/                             # Documentación técnica
+│   ├── guia_sistema_final.md         # Guía de conexión y puesta en marcha final
+│   ├── guia_prueba_motor.md          # Guía del banco de pruebas por Serial
+│   ├── esquema_electrico.md          # Esquema eléctrico detallado y lista de componentes
 │   ├── notas.md                      # Notas HW, calibración, troubleshooting
 │   ├── copilot-instructions.md       # Instrucciones para asistentes IA
 │   └── conexiones.drawio.svg         # Diagrama de conexiones visual
@@ -205,9 +208,9 @@ build_flags =
 
 ### Secuencia de operación
 
-1. Conectar hardware según diagrama (`docs/conexiones.drawio.svg`)
-2. **ANTES DE ENCENDER**: Ajustar VREF del driver a **1.34V** (ver `docs/notas.md`)
-3. Encender fuente 12V
+1. Conectar hardware según la [Guía de Conexión del Sistema Final](docs/guia_sistema_final.md) o diagrama (`docs/conexiones.drawio.svg`).
+2. **ANTES DE ENCENDER**: Ajustar VREF del driver a **0.92V** (para motor KS42STH34-1504A, ver [docs/guia_prueba_motor.md](docs/guia_prueba_motor.md)).
+3. Encender fuente 12V.
 4. Girar potenciómetro a la posición de velocidad deseada
 5. Seleccionar dirección con switch (CW o CCW)
 6. Presionar botón → Motor arranca con aceleración gradual (500ms)
