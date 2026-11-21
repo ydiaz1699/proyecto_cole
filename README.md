@@ -17,11 +17,11 @@ El firmware implementa una **máquina de estados finitos (FSM)** de 5 estados co
 │ NIVEL 3: CALIBRADO CON HARDWARE REAL        │  ← Próximo paso
 │   Parámetros ajustados con mediciones       │
 ├─────────────────────────────────────────────┤
-│ NIVEL 2: ROBUSTO  ← ESTAMOS AQUÍ           │
+│ NIVEL 2: ROBUSTO  ← ESTAMOS AQUÍ            │
 │   FSM, filtrado ADC, aceleración,           │
 │   constantes documentadas, modular          │
 ├─────────────────────────────────────────────┤
-│ NIVEL 1: FUNCIONAL MÍNIMO (v1.0)           │
+│ NIVEL 1: FUNCIONAL MÍNIMO (v1.0)            │
 │   Código monolítico, magic numbers          │
 └─────────────────────────────────────────────┘
 ```
@@ -70,25 +70,25 @@ El firmware implementa una **máquina de estados finitos (FSM)** de 5 estados co
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                   Arduino Nano (ATmega328P)                  │
+│                   Arduino Nano (ATmega328P)                 │
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
-│  main.cpp ─── setup() + loop() (coordinación)              │
+│  main.cpp ─── setup() + loop() (coordinación)               │
 │      │                                                      │
-│      ├── InputManager        ← Filtrado ADC, debounce      │
+│      ├── InputManager        ← Filtrado ADC, debounce       │
 │      │     └── struct InputState                            │
 │      │                                                      │
-│      ├── MotorController     ← FSM + generación STEP       │
+│      ├── MotorController     ← FSM + generación STEP        │
 │      │     └── struct MotorStatus                           │
 │      │                                                      │
-│      └── DisplayManager      ← LCD + Serial (rate-limited) │
+│      └── DisplayManager      ← LCD + Serial (rate-limited)  │
 │                                                             │
 ├─────────────────────────────────────────────────────────────┤
 │  HARDWARE EXTERNO                                           │
-│  ┌────────┐  ┌──────────┐  ┌──────────┐  ┌─────────────┐  │
-│  │ A4988  │  │NEMA17    │  │ Pot 10kΩ │  │ Switches    │  │
-│  │ Driver │──│Motor     │  │ (veloc.) │  │ DIR + START │  │
-│  └────────┘  └──────────┘  └──────────┘  └─────────────┘  │
+│  ┌────────┐  ┌──────────┐  ┌──────────┐  ┌─────────────┐    │
+│  │ A4988  │  │NEMA17    │  │ Pot 10kΩ │  │ Switches    │    │
+│  │ Driver │──│Motor     │  │ (veloc.) │  │ DIR + START │    │
+│  └────────┘  └──────────┘  └──────────┘  └─────────────┘    │
 └─────────────────────────────────────────────────────────────┘
 ```
 
