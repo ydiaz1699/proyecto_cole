@@ -8,7 +8,7 @@
                                                          +12V    GND
                                                            |      |
               +--------------------------------------------+------+------+
-              |                ARDUINO NANO/UNO                           |
+              |                ARDUINO NANO/UNO                          |
               |                                                          |
               |  VIN <--- +12V fuente                                    |
               |  GND <--- GND fuente                                     |
@@ -34,21 +34,21 @@
                     |      A4988          |
                     |   (Vista superior)  |
                     |                     |
-  Arduino D5 ----->| ENABLE        VMOT  |<---- +12V Fuente
+   Arduino D5 ----->| ENABLE        VMOT  |<---- +12V Fuente
                     |                     |
-  Arduino D9 ----->| MS1           GND   |<---- GND Fuente
+   Arduino D9 ----->| MS1           GND   |<---- GND Fuente
                     |                     |
-  Arduino D10 ---->| MS2           2B    |-----> Motor Bobina B (-)
+   Arduino D10 ---->| MS2           2B    |-----> Motor Bobina B (-)
                     |                     |
-  Arduino D11 ---->| MS3           2A    |-----> Motor Bobina B (+)
+   Arduino D11 ---->| MS3           2A    |-----> Motor Bobina B (+)
                     |                     |
-        +5V ------>| RST           1A    |-----> Motor Bobina A (+)
+         +5V ------>| RST           1A    |-----> Motor Bobina A (+)
                     |                     |
-        +5V ------>| SLP           1B    |-----> Motor Bobina A (-)
+         +5V ------>| SLP           1B    |-----> Motor Bobina A (-)
                     |                     |
-  Arduino D3 ----->| STEP          VDD   |<---- +5V Arduino
+   Arduino D3 ----->| STEP          VDD   |<---- +5V Arduino
                     |                     |
-  Arduino D4 ----->| DIR           GND   |<---- GND Arduino
+   Arduino D4 ----->| DIR           GND   |<---- GND Arduino
                     |                     |
                     +---------------------+
                               |
