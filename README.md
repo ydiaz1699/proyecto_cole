@@ -61,7 +61,7 @@ El firmware implementa una **máquina de estados finitos (FSM)** de 5 estados co
 | Consumo total | ~1.76A @ 12V | Motor 1.68A + lógica 0.08A |
 | Torque en plato | ~10.8 kg·cm | 3.6 × reducción 3:1 |
 | Carga máx horizontal | 5 kg | Con poleas GT2 20T/60T |
-| Costo total | ~596 Bs (~86 USD) | Todos los componentes |
+| Costo total | ~616 Bs (~89 USD) | Todos los componentes |
 
 
 ---
@@ -330,7 +330,7 @@ Este proyecto aplica tres frameworks desarrollados en repositorios hermanos:
 |:-:|:-----------|:----------------------:|:-----------:|:------------:|
 | 1 | Motor NEMA17 KS42STH34-1504A | `KS42STH34-1504A` | 100 | ~14.5 |
 | 2 | Driver A4988 / HR4988 | **`00154`** | 25 | ~3.6 |
-| 3 | Arduino Uno R3 SMD (o Nano CH340) | **`00014`** | 35 | ~5.0 |
+| 3 | Arduino Uno R3 SMD (CH340) | **`00014`** | 55 | ~8.0 |
 | 4 | Fuente 12V/3A | Ref. 12V-3A | 50 | ~7.2 |
 | 5 | Poleas GT2 20T+60T + correa | GT2-Set | 80 | ~11.6 |
 | 6 | Chumaceras UCP204 ×2 | UCP204 | 80 | ~11.6 |
@@ -338,7 +338,7 @@ Este proyecto aplica tres frameworks desarrollados en repositorios hermanos:
 | 8 | Plancha acero 5mm (plato) | Maestranza | 60 | ~8.7 |
 | 9 | Switch selector dirección (1 tiempo) | **`00129`** | 10 | ~1.4 |
 | 10 | Electrónica restante (pot, botón, cables, fusible, cap) | Sawers / Varios | 36 | ~5.3 |
-| | **TOTAL** | | **~596 Bs** | **~86 USD** |
+| | **TOTAL** | | **~616 Bs** | **~89 USD** |
 
 *Precios referencia Tarija, Bolivia — Gestión 2025*
 

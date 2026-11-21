@@ -149,7 +149,7 @@ El **diferencial tecnológico** respecto a proyectos similares es el firmware de
 
 | Concepto | Posicionador comercial | Este proyecto | Ahorro |
 |:---------|:----------------------:|:-------------:|:------:|
-| Costo | 300–800 USD | ~85 USD (596 Bs) | **70–89%** |
+| Costo | 300–800 USD | ~93 USD (644 Bs) | **70–89%** |
 | Disponibilidad | Importación (2–4 semanas) | Fabricación local (5 semanas) | Inmediata |
 | Reparabilidad | Requiere repuestos importados | Componentes locales | **100% local** |
 | Control | Analógico básico | Digital con FSM | **Superior** |
@@ -168,7 +168,7 @@ El proyecto permite aplicar de forma integrada los contenidos de:
 | Criterio | Sustento |
 |:---------|:---------|
 | Factibilidad técnica | Todos los componentes disponibles localmente o ya en posesión |
-| Factibilidad económica | Presupuesto de 596 Bs viable para proyecto escolar |
+| Factibilidad económica | Presupuesto de 644 Bs viable para proyecto escolar |
 | Pertinencia curricular | Integra competencias de soldadura, electricidad y mecánica del plan de estudios |
 | Impacto práctico | El producto puede usarse inmediatamente en el taller de la institución |
 | Innovación | Control digital con FSM + aceleración (no presente en proyectos similares del nivel) |
@@ -638,7 +638,7 @@ Los archivos principales son:
 | 4 | Chumaceras UCP204 (rodamientos) | Rodamientos | 2 | 35.00 | 70.00 |
 | 5 | Motor NEMA17 KS42STH34-1504A | `KS42STH34-1504A` | 1 | — | 0.00 |
 | 6 | Driver A4988 / HR4988 con disipador | **`00154`** | 1 | 25.00 | 25.00 |
-| 7 | Arduino Uno R3 SMD CH340 (o Nano) | **`00014`** | 1 | 35.00 | 35.00 |
+| 7 | Arduino Uno R3 SMD CH340 | **`00014`** | 1 | 55.00 | 55.00 |
 | 8 | Fuente DC 12V / 2A (adaptador) | Ref. 12V-2A | 1 | 80.00 | 80.00 |
 | 9 | Interruptor ON/OFF 220V (Rocker) | KCD1 | 1 | 8.00 | 8.00 |
 | 10 | Potenciómetro 10kΩ lineal (tipo B) | WH148-10K | 1 | 5.00 | 5.00 |
@@ -651,9 +651,9 @@ Los archivos principales son:
 | 17 | Electrodos E6013 Ø2.5mm | 1 kg | 1 kg | 15.00 | 15.00 |
 | 18 | Pintura anticorrosiva + thinner | 1 kit | 1 kit | 40.00 | 40.00 |
 | 19 | Placa perforada + borneras (tablero) | Placa PCB | 1 | 15.00 | 15.00 |
-| | | | | **TOTAL** | **624.00** |
+| | | | | **TOTAL** | **644.00** |
 
-**Costo total estimado: 624 Bs ≈ 90 USD**
+**Costo total estimado: 644 Bs ≈ 93 USD**
 
 > **Nota:** El motor NEMA17 no tiene costo adicional (aportado por el estudiante). Los precios son estimativos para Tarija, Bolivia y pueden variar según proveedor.
 
@@ -797,7 +797,7 @@ Al completar el proyecto se espera obtener:
 
 ## 12. CONCLUSIONES
 
-1. **Es viable fabricar** un posicionador motorizado funcional con un presupuesto de ~624 Bs (~90 USD), demostrando que la tecnología industrial es accesible para talleres pequeños e instituciones educativas.
+1. **Es viable fabricar** un posicionador motorizado funcional con un presupuesto de ~644 Bs (~93 USD), demostrando que la tecnología industrial es accesible para talleres pequeños e instituciones educativas.
 
 2. **El motor NEMA17** (3.6 kg·cm) combinado con reducción GT2 3:1 proporciona torque suficiente (~10.8 kg·cm) para cargas de hasta 5 kg en posición horizontal, cubriendo las necesidades de un taller educativo.
 
