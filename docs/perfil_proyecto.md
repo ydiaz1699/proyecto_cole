@@ -630,28 +630,28 @@ Los archivos principales son:
 
 ## 8. COTIZACIÓN DE MATERIALES
 
-| # | Material / Componente | Cantidad | P. Unit. (Bs) | Total (Bs) |
-|:-:|:----------------------|:--------:|:-------------:|:----------:|
-| 1 | Perfil cuadrado 40×40 mm (barra 6 m) | 2 | 85.00 | 170.00 |
-| 2 | Plancha de acero 5 mm (30×30 cm) | 1 | 60.00 | 60.00 |
-| 3 | Barra maciza de acero Ø20 mm (50 cm) | 1 | 45.00 | 45.00 |
-| 4 | Chumaceras UCP204 (rodamientos) | 2 | 35.00 | 70.00 |
-| 5 | Motor NEMA17 JK42HS40-1684 (disponible) | 1 | — | 0.00 |
-| 6 | Driver A4988 con disipador | 1 | 25.00 | 25.00 |
-| 7 | Arduino Nano (ATmega328P, CH340) | 1 | 35.00 | 35.00 |
-| 8 | Fuente DC 12V / 2A (adaptador) | 1 | 80.00 | 80.00 |
-| 9 | Interruptor ON/OFF 220V | 1 | 8.00 | 8.00 |
-| 10 | Potenciómetro 10kΩ lineal (tipo B) | 1 | 5.00 | 5.00 |
-| 11 | Switch SPDT (selector dirección) | 1 | 10.00 | 10.00 |
-| 12 | Pulsador normalmente abierto | 1 | 5.00 | 5.00 |
-| 13 | Fusible 2.5A + portafusible | 1 | 6.00 | 6.00 |
-| 14 | Capacitor 100µF/25V electrolítico | 1 | 3.00 | 3.00 |
-| 15 | Cable eléctrico AWG 20-22 (metros) | 3 | 4.00 | 12.00 |
-| 16 | Tornillos, tuercas, arandelas (varios) | lote | 20.00 | 20.00 |
-| 17 | Electrodos E6013 Ø2.5mm | 1 kg | 15.00 | 15.00 |
-| 18 | Pintura anticorrosiva + thinner | 1 kit | 40.00 | 40.00 |
-| 19 | Placa perforada + borneras (tablero) | 1 | 15.00 | 15.00 |
-| | | | **TOTAL** | **624.00** |
+| # | Material / Componente | Código (Sawers / Ref.) | Cantidad | P. Unit. (Bs) | Total (Bs) |
+|:-:|:----------------------|:----------------------:|:--------:|:-------------:|:----------:|
+| 1 | Perfil cuadrado 40×40 mm (barra 6 m) | Ferretería | 2 | 85.00 | 170.00 |
+| 2 | Plancha de acero 5 mm (30×30 cm) | Maestranza | 1 | 60.00 | 60.00 |
+| 3 | Barra maciza de acero Ø20 mm (50 cm) | Maestranza | 1 | 45.00 | 45.00 |
+| 4 | Chumaceras UCP204 (rodamientos) | Rodamientos | 2 | 35.00 | 70.00 |
+| 5 | Motor NEMA17 KS42STH34-1504A | `KS42STH34-1504A` | 1 | — | 0.00 |
+| 6 | Driver A4988 / HR4988 con disipador | **`00154`** | 1 | 25.00 | 25.00 |
+| 7 | Arduino Uno R3 SMD CH340 (o Nano) | **`00014`** | 1 | 35.00 | 35.00 |
+| 8 | Fuente DC 12V / 2A (adaptador) | Ref. 12V-2A | 1 | 80.00 | 80.00 |
+| 9 | Interruptor ON/OFF 220V (Rocker) | KCD1 | 1 | 8.00 | 8.00 |
+| 10 | Potenciómetro 10kΩ lineal (tipo B) | WH148-10K | 1 | 5.00 | 5.00 |
+| 11 | Switch SPDT / 1 tiempo (dirección) | **`00129`** | 1 | 10.00 | 10.00 |
+| 12 | Pulsador normalmente abierto (Start) | PBS-11B / Push | 1 | 5.00 | 5.00 |
+| 13 | Fusible 2.5A + portafusible | 5x20mm | 1 | 6.00 | 6.00 |
+| 14 | Capacitor 100µF/25V electrolítico | 100uF-25V | 1 | 3.00 | 3.00 |
+| 15 | Cable eléctrico AWG 20-22 (jumpers) | Lote jumpers | 3 | 4.00 | 12.00 |
+| 16 | Tornillos, tuercas, arandelas (varios) | lote | lote | 20.00 | 20.00 |
+| 17 | Electrodos E6013 Ø2.5mm | 1 kg | 1 kg | 15.00 | 15.00 |
+| 18 | Pintura anticorrosiva + thinner | 1 kit | 1 kit | 40.00 | 40.00 |
+| 19 | Placa perforada + borneras (tablero) | Placa PCB | 1 | 15.00 | 15.00 |
+| | | | | **TOTAL** | **624.00** |
 
 **Costo total estimado: 624 Bs ≈ 90 USD**
 

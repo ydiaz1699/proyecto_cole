@@ -64,17 +64,24 @@
 
 ---
 
-## Conexion del Motor NEMA17 (JK42HS40-1684, 4 Hilos)
+## Conexion del Motor NEMA17 (KS42STH34-1504A / JK42HS40-1684, 4 Hilos)
 
 ```
-  Cable ROJO  ----> Bobina A+ ----> Pin 1A del driver
-  Cable AZUL  ----> Bobina A- ----> Pin 1B del driver
-  Cable VERDE ----> Bobina B+ ----> Pin 2A del driver
-  Cable NEGRO ----> Bobina B- ----> Pin 2B del driver
+  IMPORTANTE: Con el conector blanco de 6 pines conectado al motor:
+  
+  Bobina A (Pines 1 y 4 del motor):
+    Cable ROJO  ----> Bobina A1 ----> Pin 1B del driver
+    Cable VERDE ----> Bobina A2 ----> Pin 1A del driver
+    
+  Bobina B (Pines 3 y 6 del motor):
+    Cable AZUL  ----> Bobina B1 ----> Pin 2A del driver
+    Cable NEGRO ----> Bobina B2 ----> Pin 2B del driver
 
-  NOTA: Los colores pueden variar segun fabricante.
-  Para identificar bobinas: medir continuidad con multimetro.
-  Los dos cables con continuidad entre si = UNA bobina.
+  ADVERTENCIA DE CABLEADO:
+  Los cables de 4 a 6 pines estilo impresora 3D traen en la ficha negra de 4 pines 
+  el orden Rojo-Azul-Verde-Negro. Si se conecta directo, las bobinas quedan mezcladas 
+  y el motor solo vibra/suena sin girar. 
+  DEBEN conectarse las parejas: (Rojo + Verde) en 1B/1A y (Azul + Negro) en 2A/2B.
 ```
 
 ---
@@ -145,20 +152,23 @@
 ## Ajuste del VREF (Corriente del Motor)
 
 ```
-  PARA MOTOR JK42HS40-1684 (1.68A):
-
-  A4988 (Rsense = 0.100 Ohm):
-  VREF = 1.68A x 8 x 0.100 = 1.34V
-
-  DRV8825 (Rsense = 0.100 Ohm):
-  VREF = 1.68A / 2 = 0.84V
+  PARA MOTOR KS42STH34-1504A (1.50A Nominal):
+  Driver HR4988SQ / A4988 con resistencias Rsense = 0.100 Ohm (R100):
+  
+  Fórmula: VREF = IMAX x 8 x Rsense = IMAX x 0.8
+  
+  - Al 100% (1.50A): VREF = 1.20V
+  - Al 77% (1.15A - Recomendado para régimen continuo sin sobrecalentar):
+    VREF = 0.92V
 
   PROCEDIMIENTO:
-  1. Desconectar motor del driver
-  2. Energizar driver (12V VMOT, 5V VDD)
-  3. Multimetro: punta roja en potenciometro del driver, negra en GND
-  4. Girar potenciometro hasta el voltaje calculado
-  5. Reconectar motor
+  1. Desconectar motor del driver (fuente apagada)
+  2. Energizar lógica y potencia (12V VMOT, 5V VDD, GND común)
+  3. Multímetro en escala de 2V DC:
+     - Punta negra a GND
+     - Punta roja sobre el tornillo metálico del trimmer VR1 del driver
+  4. Girar suavemente el potenciómetro hasta leer 0.92V
+  5. Desconectar alimentación antes de reconectar el motor
 ```
 
 ---
@@ -176,19 +186,19 @@
 
 ---
 
-## Lista de Componentes Electricos
+## Lista de Componentes Eléctricos
 
-| # | Componente | Especificacion | Cant. |
-|:-:|:-----------|:---------------|:-----:|
-| 1 | Arduino Nano/Uno | ATmega328P | 1 |
-| 2 | Driver A4988 o DRV8825 | Con disipador | 1 |
-| 3 | Motor NEMA17 | JK42HS40-1684, 1.68A | 1 |
-| 4 | Fuente DC | 12V / 2A (minimo) | 1 |
-| 5 | Potenciometro | 10kOhm lineal (tipo B) | 1 |
-| 6 | Switch SPDT | Selector de direccion | 1 |
-| 7 | Pulsador N.A. | Boton de marcha | 1 |
-| 8 | Interruptor | ON/OFF general 220V | 1 |
-| 9 | Fusible | 2.5A / 250V + portafusible | 1 |
-| 10 | Capacitor | 100uF / 25V electrolitico | 1 |
-| 11 | Cable AWG 22 | Senales logicas | 2m |
-| 12 | Cable AWG 20 | Motor y potencia | 1m |
+| # | Componente | Código (Sawers / Ref.) | Especificación | Cant. |
+|:-:|:-----------|:----------------------:|:---------------|:-----:|
+| 1 | Arduino Uno R3 SMD (o Nano) | **`00014`** | ATmega328P CH340 USB Tipo B | 1 |
+| 2 | Driver Stepper A4988 / HR4988 | **`00154`** | Con disipador de aluminio ($V_{REF} = 0.92\text{V}$) | 1 |
+| 3 | Motor Paso a Paso NEMA17 | **`KS42STH34-1504A`** | 1.50A/fase, 4 cables, 34mm | 1 |
+| 4 | Switch selector dirección | **`00129`** | Switch 1 tiempo / SPDT / SS12D00G3 | 1 |
+| 5 | Potenciómetro rotativo 10kΩ | **`WH148-10K`** (o mod. panel) | Lineal tipo B 10kΩ con perilla | 1 |
+| 6 | Pulsador Marcha / Parada | **`PBS-11B`** / Push-button | Normalmente Abierto (momentáneo) | 1 |
+| 7 | Fuente de poder DC | Ref. 12V 2A–3A | 12V / 2A mínimo (conector jack 2.1mm) | 1 |
+| 8 | Interruptor general 220V | Rocker KCD1 | ON/OFF bipolar o unipolar 250V | 1 |
+| 9 | Fusible y portafusible | 2.5A / 250V | Vidrio 5x20mm + portafusible aéreo/chasis | 1 |
+| 10 | Capacitor electrolítico | 100µF / 25V–35V | Filtro de picos en bornera VMOT-GND | 1 |
+| 11 | Cable para conexiones | Jumpers M-M / M-H | AWG 22 (lógica) y AWG 20 (motor) | 1 lote |
+| 12 | Protoboard o Shield de tornillo | Placa borneras / PCB | Para interconexión estable | 1 |
